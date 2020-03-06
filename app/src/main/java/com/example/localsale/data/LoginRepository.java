@@ -5,6 +5,7 @@ import com.example.localsale.data.model.LoggedInUser;
 /**
  * Class that requests authentication and user information from the remote data source and
  * maintains an in-memory cache of login status and user credentials information.内存中单例
+ * 保存LoggedInUser，LoginDataSource
  */
 public class LoginRepository {
 

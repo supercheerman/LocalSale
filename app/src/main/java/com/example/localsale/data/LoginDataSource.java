@@ -9,9 +9,11 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
+    //在此方法中对于传入的用户名和密码进行判断，正确放回存放用户信息的Success，失败返回一个错误
     public Result<LoggedInUser> login(String username, String password) {
 
         try {
+
             // TODO: handle loggedInUser authentication
             LoggedInUser fakeUser =
                     new LoggedInUser(

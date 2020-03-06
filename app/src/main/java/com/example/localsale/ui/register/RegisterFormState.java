@@ -1,4 +1,4 @@
-package com.example.localsale.ui.login;
+package com.example.localsale.ui.register;
 
 import androidx.annotation.Nullable;
 
@@ -6,20 +6,20 @@ import androidx.annotation.Nullable;
  * Data validation state of the login form.
  * 处理登录时输入框中格式是否符合的状态变量
  */
-class LoginFormState {
+class RegisterFormState {
     @Nullable
     private Integer usernameError;
     @Nullable
     private Integer passwordError;
     private boolean isDataValid;
 
-    LoginFormState(@Nullable Integer usernameError, @Nullable Integer passwordError) {
+    RegisterFormState(@Nullable Integer usernameError, @Nullable Integer passwordError) {
         this.usernameError = usernameError;
         this.passwordError = passwordError;
         this.isDataValid = false;
     }
 
-    LoginFormState(boolean isDataValid) {
+    RegisterFormState(boolean isDataValid) {
         this.usernameError = null;
         this.passwordError = null;
         this.isDataValid = isDataValid;

@@ -1,0 +1,70 @@
+<!-- android:focusable="true"
+   android:focusableInTouchMode="true"
+   把EditText默认的行为截断了！ -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECEDF1"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.example.localsale.ui.register.RegisterActivity" >
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/my" />
+
+    <EditText
+        android:id="@+id/register_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="135dp"
+        android:background="@drawable/shape_white_frame"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/register_email"
+        android:inputType="textPersonName"
+        android:textColor="#6A6A6C"
+        android:textColorHint="#ECEDDD"></EditText>
+
+    <EditText
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_email"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="-7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/shape_white_frame"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/register_password"
+        android:inputType="textPassword"
+        android:textColor="#6A6A6C"
+        android:textColorHint="#ECEDDD"></EditText>
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/register_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/shape_button"
+        android:gravity="center"
+        android:text="@string/register_button"
+        android:textColor="#F9FAFB" />
+
+
+</RelativeLayout>
