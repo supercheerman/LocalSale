@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.localsale.R;
+import com.example.localsale.data.CloudDatabase.DBConnector;
 
-import java.util.zip.Inflater;
+import java.sql.Connection;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -36,8 +37,7 @@ public class ShoppingFragment extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
-}
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
@@ -81,6 +81,19 @@ public class ShoppingFragment extends Fragment  {
 
             }
         });
+
+
+        /*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("TAH","@______@ run start");
+                Connection connection = DBConnector.getConnection("loacalSales","");
+                DBConnector.getSqlResultSet(connection,"select * from foodtable");
+                Log.i("TAH","@______@ run after");
+
+            }
+        }).start();*/
 
         return view;
     }

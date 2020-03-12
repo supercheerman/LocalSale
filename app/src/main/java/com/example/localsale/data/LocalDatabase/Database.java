@@ -1,4 +1,4 @@
-package com.example.localsale.data.database;
+package com.example.localsale.data.LocalDatabase;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.localsale.data.database.DbSchema.*;
+import com.example.localsale.data.LocalDatabase.DbSchema.*;
 
 import java.util.ArrayList;
 import java.util.List;

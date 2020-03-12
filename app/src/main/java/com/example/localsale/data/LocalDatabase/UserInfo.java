@@ -1,6 +1,4 @@
-package com.example.localsale.data.database;
-
-import android.text.LoginFilter;
+package com.example.localsale.data.LocalDatabase;
 
 public class UserInfo {
     private String mUserName;

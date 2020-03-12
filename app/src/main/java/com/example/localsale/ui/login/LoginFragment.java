@@ -1,6 +1,5 @@
 package com.example.localsale.ui.login;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.localsale.R;
-import com.example.localsale.data.database.Database;
+import com.example.localsale.data.LocalDatabase.Database;
 import com.example.localsale.ui.register.RegisterActivity;
 
 import androidx.annotation.Nullable;

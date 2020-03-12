@@ -1,12 +1,10 @@
 package com.example.localsale.ui.register;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.util.Patterns;
 
 import com.example.localsale.R;
-import com.example.localsale.data.LoginRepository;
-import com.example.localsale.data.database.Database;
+import com.example.localsale.data.LocalDatabase.Database;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

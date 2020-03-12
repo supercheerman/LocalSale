@@ -4,14 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Log;
 import android.util.Patterns;
 
 import com.example.localsale.data.LoginRepository;
-import com.example.localsale.data.Result;
-import com.example.localsale.data.database.Database;
-import com.example.localsale.data.database.UserInfo;
-import com.example.localsale.data.model.LoggedInUser;
+import com.example.localsale.data.LocalDatabase.Database;
+import com.example.localsale.data.LocalDatabase.UserInfo;
 import com.example.localsale.R;
 
 import java.util.List;

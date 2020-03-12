@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.localsale.R;
-import com.example.localsale.data.database.Database;
+import com.example.localsale.data.LocalDatabase.Database;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;

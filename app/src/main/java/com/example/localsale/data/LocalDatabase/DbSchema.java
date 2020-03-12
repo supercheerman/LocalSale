@@ -1,4 +1,4 @@
-package com.example.localsale.data.database;
+package com.example.localsale.data.LocalDatabase;
 
 public class DbSchema{
 

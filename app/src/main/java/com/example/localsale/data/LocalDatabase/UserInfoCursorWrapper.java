@@ -1,14 +1,10 @@
-package com.example.localsale.data.database;
+package com.example.localsale.data.LocalDatabase;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.localsale.data.database.Database;
-import com.example.localsale.data.database.DbSchema.UserInfoTable;
-
-import java.util.Date;
-import java.util.UUID;
+import com.example.localsale.data.LocalDatabase.DbSchema.UserInfoTable;
 
 public class UserInfoCursorWrapper extends CursorWrapper {
     public UserInfoCursorWrapper(Cursor cursor){
