@@ -1,8 +1,5 @@
 package com.example.localsale.ui.register;
 
-import com.example.localsale.data.LoginDataSource;
-import com.example.localsale.data.LoginRepository;
-import com.example.localsale.ui.login.LoginViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

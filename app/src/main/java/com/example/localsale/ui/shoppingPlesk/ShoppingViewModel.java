@@ -3,6 +3,8 @@ package com.example.localsale.ui.shoppingPlesk;
 
 import android.util.Log;
 
+import com.example.localsale.data.CloudDatabase.DBCHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,9 @@ public class ShoppingViewModel extends ViewModel {
 
     }
 
-
+    public void setItemCategories(ItemCategories itemCategories) {
+        mItemCategories = itemCategories;
+    }
 
     public ItemCategories getItemCategories() {
         return mItemCategories;
@@ -30,7 +34,8 @@ public class ShoppingViewModel extends ViewModel {
         return mTopElementMutableLiveData;
     }
     public ShoppingViewModel(){
-        mItemCategories = new ItemCategories();
+
+        mItemCategories =new ItemCategories();
     }
     public void addNumberInTop(int tmp){
 

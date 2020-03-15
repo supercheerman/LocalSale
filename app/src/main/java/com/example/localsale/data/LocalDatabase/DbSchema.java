@@ -10,4 +10,15 @@ public class DbSchema{
         }
     }
 
+    public static final class ItemInfoTable{
+        public static final String NAME ="foodtable";
+        public static final class Cols{
+            public static final String CATEGORY = "category";
+            public static final String NAME = "name";
+            public static final String PRICE = "price";
+            public static final String DESCRIPTION = "description";
+
+        }
+    }
+
 }

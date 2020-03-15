@@ -28,10 +28,9 @@
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
         android:background="#4E4E4E">
 
         <ImageView
@@ -77,7 +76,7 @@
             android:text="@string/least_money_string"
             android:textColor="#FF424242"
             android:textSize="18sp" />
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class ItemCategories{
@@ -23,7 +24,7 @@ public class ItemCategories{
      * Holds the calculated values of @{link getCountForSection}
      * 将每一个访问过的section的item数量存储到内存中
      */
-    private SparseArray<Integer> mSectionCountCache;
+    private SparseArray<Integer> mShoppingList;
     /**
      * Caches the item count
      */
@@ -40,17 +41,16 @@ public class ItemCategories{
     }
 
     public ItemCategories(){
-        mItemCategoryList.add(forTest("鸡"));
-        mItemCategoryList.add(forTest("鸭"));
-        mItemCategoryList.add(forTest("鱼"));
-        mItemCategoryList.add(forTest("猪"));
-        mItemCategoryList.add(forTest("牛"));
+
         mSectionCache = new SparseArray<Integer>();
         mSectionPositionCache = new SparseArray<Integer>();
-        mSectionCountCache = new SparseArray<Integer>();
+        mShoppingList = new SparseArray<Integer>();
         mCount = -1;
         mSectionCount = -1;
     }
+    /*
+    * 获取所有商品的数目，并且实现缓存功能
+    * */
     public int getItemCounts(){
         if (mCount >= 0) {
             return mCount;
@@ -122,6 +122,9 @@ public class ItemCategories{
     public String getItemString(int position){
         return getItem(position).getName();
     }
+    /*
+    * 获得该item所在section在section例表中位置
+    * */
     public int getCountTillSectionPosit(int posit){
         int count=0;
         for(int i=0;i<posit;i++){
@@ -130,10 +133,73 @@ public class ItemCategories{
         return count;
     }
 
+    public void InsetIntoCategory(String category, Item item){
+
+        for(int i=0;i<mItemCategoryList.size();i++){
+            if(category.equals(mItemCategoryList.get(i).getCategory())){
+                mItemCategoryList.get(i).getItems().add(item);
+                return;
+            }
+        }
+        //mItemCategories为空或者不存在某个分类
+        ItemCategory tmp = new ItemCategory(category,item);
+        mItemCategoryList.add(tmp);
+        return;
+
+
+
+
+    }
+    /*
+    * 当商品数目为0时返回true
+    *
+    * */
+    public boolean addNumberInItem(int position){
+        if(mShoppingList.get(position)==null){
+            mShoppingList.put(position,1);
+            Log.i("TAG",position+"  "+mShoppingList.get(position));
+            return true;
+        }
+        else {
+            int tmp =mShoppingList.get(position)+1;
+            mShoppingList.remove(position);
+            mShoppingList.put(position,tmp);
+            Log.i("TAG",position+" @ "+mShoppingList.get(position)+" @ "+tmp);
+            return false;
+        }
+
+    }
+    /*
+    * 当商品数量只剩1时返回true
+    * */
+    public boolean subNumberInItem(int position){
+        if(mShoppingList.get(position)==1){
+            mShoppingList.remove(position);
+            return true;
+        } else{
+            int tmp =mShoppingList.get(position)-1;
+            mShoppingList.remove(position);
+            mShoppingList.put(position,tmp);
+            return false;
+        }
+    }
+    public int getNumber(int posit){
+
+        Log.i("TAG","@@@"+mShoppingList.toString());
+        return mShoppingList.get(posit);
+    }
+
     public static class ItemCategory {
 
         private String mCategory;
-        private List<Item> mItems;
+        private List<Item> mItems = new ArrayList<>();
+        public ItemCategory(String category,Item item){
+            mCategory =category;
+            mItems.add(item);
+        }
+        public ItemCategory(){
+
+        }
 
         public String getCategory() {
             return mCategory;
@@ -158,6 +224,33 @@ public class ItemCategories{
     public static class Item{
 
         private String mName ;
+        private float mPrice;
+        private int mNumber =0;
+        private String mDescription;
+
+        public float getPrice() {
+            return mPrice;
+        }
+
+        public void setPrice(float price) {
+            mPrice = price;
+        }
+
+        public int getNumber() {
+            return mNumber;
+        }
+
+        public void setNumber(int number) {
+            mNumber = number;
+        }
+
+        public String getDescription() {
+            return mDescription;
+        }
+
+        public void setDescription(String description) {
+            mDescription = description;
+        }
 
         public String getName() {
             return mName;
@@ -167,6 +260,14 @@ public class ItemCategories{
             mName = name;
         }
     }
+
+    public void createForTest(){
+        mItemCategoryList.add(forTest("鸡"));
+        mItemCategoryList.add(forTest("鸭"));
+        mItemCategoryList.add(forTest("鱼"));
+        mItemCategoryList.add(forTest("猪"));
+        mItemCategoryList.add(forTest("牛"));
+    }
     public ItemCategory forTest(String s){
         ItemCategory itemCategory  = new ItemCategory();
         itemCategory.setCategory(s);
@@ -174,7 +275,7 @@ public class ItemCategories{
         for(int i =0;i< new Random().nextInt(3)+5;i++){
             Item tmp =new Item();
             tmp.setName(s+i);
-            Log.i("TAH","@-----@"+tmp.getName());
+            //Log.i("TAH","@-----@"+tmp.getName());
             itemList.add(tmp);
         }
         itemCategory.setItems(itemList);

@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import com.example.localsale.data.LoginDataSource;
-import com.example.localsale.data.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
@@ -19,7 +17,7 @@ public class LoginViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(LoginViewModel.class)) {
             //判断为LoginViewModel的父类并且实例化一个LoginVieModel
-            return (T) new LoginViewModel(LoginRepository.getInstance(new LoginDataSource()));
+            return (T) new LoginViewModel();
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }

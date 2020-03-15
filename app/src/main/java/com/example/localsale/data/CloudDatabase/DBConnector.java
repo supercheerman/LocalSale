@@ -1,6 +1,9 @@
 package com.example.localsale.data.CloudDatabase;
 
+import android.content.ClipData;
 import android.util.Log;
+
+import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,11 +18,12 @@ public class DBConnector {
     public static Connection getConnection(String dbName,String password){
         Connection connection;
         try{
+            Log.i(TAG,"before connect ");
             Class.forName("com.mysql.jdbc.Driver");
-            String ip ="103.133.177.158";
+            String ip ="106.54.98.211";
             connection = DriverManager.getConnection(
                     "jdbc:mysql://" + ip +":3306/"+dbName,
-                    "root",password
+                    dbName,password
             );
             Log.i(TAG,"connect successful");
             return connection;
@@ -31,20 +35,37 @@ public class DBConnector {
         return null;
     }
 
-    public static void getSqlResultSet(Connection connection, String sql){
+    public static ItemCategories getSqlResultSet(String dbName , String password , String sql) throws Exception {
+
+        Connection connection = DBConnector.getConnection(dbName,password);
+        if(connection ==null){
+            throw new Exception("connection failed");
+        }
+        ItemCategories itemCategories = new ItemCategories();
         try{
             Statement st=(Statement)connection.createStatement();
-            ResultSet rs=st.executeQuery(sql);
-            while(rs.next()){//读表mytable中的每一列
-                String mybook=rs.getString("名称");//读取的是B_Name这一列，传给mybook
-                Log.i(TAG,mybook);
+            ResultSet mResultSet=st.executeQuery(sql);
+
+            while(mResultSet .next()){//读表mytable中的每一列
+                String kind = mResultSet.getString(1);
+                String name=mResultSet .getString(2);
+                float price = mResultSet.getFloat(3);
+                String description = mResultSet.getString(4);
+                Log.i(TAG,kind+name+price+description);
+                itemCategories.InsetIntoCategory(kind,DBCHelper.createItem(name,price,description));
             }
-            connection.close();//一定要关闭
+            connection.close();
             st.close();
-            rs.close();
+            mResultSet.close();
+            return itemCategories;
+
         }catch (SQLException ex){
             Log.e(TAG,"@_______@",ex);
         }
+        finally {
+
+        }
+        return null;
 
     }
 }

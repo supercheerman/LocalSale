@@ -2,15 +2,20 @@ package com.example.localsale.ui.shoppingPlesk;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.localsale.R;
+import com.example.localsale.data.CloudDatabase.DBCHelper;
 import com.example.localsale.data.CloudDatabase.DBConnector;
+import com.example.localsale.data.LocalDatabase.Database;
 
 import java.sql.Connection;
 
@@ -72,28 +77,8 @@ public class ShoppingFragment extends Fragment  {
             }
         });
 
-        mViewModel.getTopElementMutableLiveDatae().observe(this, new Observer<ShoppingViewModel.topElementState>() {
-            @Override
-            public void onChanged(ShoppingViewModel.topElementState topElement) {
 
-
-                Log.i("TAG","@______@:observeChange"+topElement.getTop());
-
-            }
-        });
-
-
-        /*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("TAH","@______@ run start");
-                Connection connection = DBConnector.getConnection("loacalSales","");
-                DBConnector.getSqlResultSet(connection,"select * from foodtable");
-                Log.i("TAH","@______@ run after");
-
-            }
-        }).start();*/
+        new readDBAsyncTask().execute();
 
         return view;
     }
@@ -118,12 +103,46 @@ public class ShoppingFragment extends Fragment  {
             mTextView.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
 
+        /*
+        * 为指定位置item添加onClickListener
+        * */
         public void setOnClickListener(final int posit){
             mTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    mListItem.scrollToPosition(mViewModel.getItemCategories().getCountTillSectionPosit(posit));
+                    mViewModel.addNumberInTop(posit);
+                    int position =mViewModel.getItemCategories().getCountTillSectionPosit(posit);
+                    final LinearLayoutManager linearLayoutManager =(LinearLayoutManager) mListItem.getLayoutManager();
+                    final int firstVisualElement =  linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    final int lastVisualElement =  linearLayoutManager.findLastCompletelyVisibleItemPosition();
+
+                    if(position<firstVisualElement){
+                        mListItem.scrollToPosition(position);
+
+                    }else if(position<lastVisualElement){
+                        int offSet=mListItem.getChildAt(position-firstVisualElement).getTop();
+                        mListItem.smoothScrollBy(0,offSet);
+
+                    }else{
+                        mListItem.scrollToPosition(position);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                int firstVisualElement2 =  linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                                int lastVisualElement2 =  linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                                if(mListItem.getChildAt(lastVisualElement-firstVisualElement)==null){
+
+                                }else{
+                                    int offSet=mListItem.getChildAt(lastVisualElement-firstVisualElement+1).getTop();
+                                    mListItem.smoothScrollBy(0,offSet);
+                                }
+
+                            }
+                        },50);
+                    }
+
 
                 }
             });
@@ -170,14 +189,60 @@ public class ShoppingFragment extends Fragment  {
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder{
-        private TextView mTextView;
+        private TextView mNameTextView;
+        private Button mAddButton;
+        private Button mSubButton;
+        private TextView mPriceTextView;
+        private TextView mDescriptionTextView;
+        private TextView mNumberTextView;
+        private int mPosit;
 
         public ItemHolder(LayoutInflater inflater,ViewGroup container) {
             super(inflater.inflate(R.layout.list_shopping_item,container,false));
-            mTextView = itemView.findViewById(R.id.item_text_view);
+            mNameTextView = itemView.findViewById(R.id.item_text_view);
+            mPriceTextView =itemView.findViewById(R.id.item_text_price);
+            mDescriptionTextView = itemView.findViewById(R.id.item_text_description);
+            mNumberTextView = itemView.findViewById(R.id.product_number);
+            mAddButton = itemView.findViewById(R.id.add_button);
+            mSubButton = itemView.findViewById(R.id.sub_button);
         }
-        public void bindText(String s){
-            mTextView.setText(s);
+        /*
+        *
+        * 绑定名字，价格和描述
+        * */
+        public void bindText(ItemCategories.Item item){
+
+            mNameTextView.setText(item.getName());
+            mPriceTextView.setText("￥"+item.getPrice());
+            mDescriptionTextView.setText(item.getDescription());
+        }
+        public void bindOnClickListener(int position){
+            mPosit =position;
+            mAddButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mViewModel.getItemCategories().addNumberInItem(mPosit)){
+                        mSubButton.setAnimation(ButtonAnimation.getShowAnimation());
+                        mSubButton.setVisibility(View.VISIBLE);
+                        mSubButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(mViewModel.getItemCategories().subNumberInItem(mPosit)){
+                                    mSubButton.setAnimation(ButtonAnimation.getHiddenAnimation());
+                                    mSubButton.setVisibility(View.INVISIBLE);
+                                    mNumberTextView.setText(null);
+                                    mSubButton.setOnClickListener(null);
+                                }else{
+                                    mNumberTextView.setText(""+mViewModel.getItemCategories().getNumber(mPosit));
+                                }
+                            }
+                        });
+                    }
+                    mNumberTextView.setText(""+mViewModel.getItemCategories().getNumber(mPosit));
+
+
+                }
+            });
         }
     }
     public class ItemAdaptor extends RecyclerView.Adapter<ItemHolder>{
@@ -198,7 +263,8 @@ public class ShoppingFragment extends Fragment  {
         @Override
         public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
 
-            holder.bindText(mItemCategories.getItemString(position));
+            holder.bindText(mItemCategories.getItem(position));
+            holder.bindOnClickListener(position);
 
         }
 
@@ -209,4 +275,27 @@ public class ShoppingFragment extends Fragment  {
         }
 
     }
+    public class readDBAsyncTask extends AsyncTask<Integer, Integer, ItemCategories>{
+
+
+        @Override
+        protected ItemCategories doInBackground(Integer... voids) {
+            Log.i("TAG","before sql");
+            DBCHelper helper = new DBCHelper("select * from foodtable");
+            return  helper.readResult();
+        }
+
+        @Override
+        protected void onPostExecute(ItemCategories result) {
+
+            Database database  = Database.getDatabase(getActivity());
+            //database.addCategories(result);
+            mSection.setAdapter(new SectionAdaptor(result));
+            mViewModel.setItemCategories(result);
+            mListItem.setAdapter(new ItemAdaptor(result));
+            Log.i("TAG",""+ result.getItemCounts()+" "+result.getSectionCounts());
+        }
+    }
+
+
  }

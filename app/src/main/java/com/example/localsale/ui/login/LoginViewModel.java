@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.localsale.data.LoginRepository;
 import com.example.localsale.data.LocalDatabase.Database;
 import com.example.localsale.data.LocalDatabase.UserInfo;
 import com.example.localsale.R;
@@ -17,10 +16,9 @@ public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
 
-    LoginViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    LoginViewModel() {
+
     }
 
     public LiveData<LoginFormState> getLoginFormState() {
@@ -31,10 +29,9 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public void login(Database database, String username, String password) {
+    public boolean login(Database database, String username, String password) {
         // can be launched in a separate asynchronous job
-        //用户密码输入符合格式后点击登录按钮
-        //Result<LoggedInUser> result = loginRepository.login(username, password);
+
 
         boolean result = isUserValidation(database,username ,password);
 
@@ -43,6 +40,7 @@ public class LoginViewModel extends ViewModel {
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }
+        return result;
     }
 
     private boolean isUserValidation(Database database,String username, String password) {
