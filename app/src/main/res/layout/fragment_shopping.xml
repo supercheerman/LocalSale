@@ -28,55 +28,7 @@
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#4E4E4E">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            app:srcCompat="@drawable/my" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignTop="@+id/icon"
-            android:layout_toStartOf="@+id/textView2"
-            android:background="@drawable/ic_brightness_1_black_24dp"
-            android:gravity="center"
-            android:text=""
-            android:textColor="#FFFFFF"
-            android:textSize="12sp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/icon"
-            android:text="@string/money_text"
-            android:textColor="#FFFFFF"
-            android:textSize="21sp" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/least_money_string"
-            android:textColor="#FF424242"
-            android:textSize="18sp" />
-    </LinearLayout>
 
 
 </LinearLayout>

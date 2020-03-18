@@ -1,6 +1,7 @@
 package com.example.localsale.ui.shoppingPlesk;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.example.localsale.R;
 import com.example.localsale.data.CloudDatabase.DBCHelper;
 import com.example.localsale.data.CloudDatabase.DBConnector;
+import com.example.localsale.data.ItemInOrderList;
 import com.example.localsale.data.LocalDatabase.Database;
 
 import java.sql.Connection;
@@ -49,7 +51,9 @@ public class ShoppingFragment extends Fragment  {
         View view = inflater.inflate(R.layout.fragment_shopping,container,false);
         mSection =view.findViewById(R.id.list_category);
         mListItem = view.findViewById(R.id.list_item);
+        Log.i("TAG"," "+getActivity());
         mViewModel = ViewModelProviders.of(getActivity()).get(ShoppingViewModel.class);
+        Log.i("TAG"," finished");
         mViewModel.setInterface(new ShoppingViewModel.ShoppingModelInterface() {
             @Override
             public void ChangeSectionColor(int position, String color) {
@@ -59,9 +63,9 @@ public class ShoppingFragment extends Fragment  {
             }
         });
         mSection.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mSection.setAdapter(new SectionAdaptor(mViewModel.getItemCategories()));
+        mSection.setAdapter(new SectionAdaptor(null));
         mListItem.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mListItem.setAdapter(new ItemAdaptor(mViewModel.getItemCategories()));
+        mListItem.setAdapter(new ItemAdaptor(null));
         mListItem.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -111,8 +115,9 @@ public class ShoppingFragment extends Fragment  {
                 @Override
                 public void onClick(View v) {
 
-                    mViewModel.addNumberInTop(posit);
+
                     int position =mViewModel.getItemCategories().getCountTillSectionPosit(posit);
+                    mViewModel.addNumberInTop(position);
                     final LinearLayoutManager linearLayoutManager =(LinearLayoutManager) mListItem.getLayoutManager();
                     final int firstVisualElement =  linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                     final int lastVisualElement =  linearLayoutManager.findLastCompletelyVisibleItemPosition();
@@ -184,7 +189,12 @@ public class ShoppingFragment extends Fragment  {
 
         @Override
         public int getItemCount() {
-            return mItemCategories.getSectionCounts();
+            if(mItemCategories==null){
+                return 0;
+            }
+            else{
+                return mItemCategories.getSectionCounts();
+            }
         }
     }
 
@@ -195,7 +205,6 @@ public class ShoppingFragment extends Fragment  {
         private TextView mPriceTextView;
         private TextView mDescriptionTextView;
         private TextView mNumberTextView;
-        private int mPosit;
 
         public ItemHolder(LayoutInflater inflater,ViewGroup container) {
             super(inflater.inflate(R.layout.list_shopping_item,container,false));
@@ -216,33 +225,62 @@ public class ShoppingFragment extends Fragment  {
             mPriceTextView.setText("￥"+item.getPrice());
             mDescriptionTextView.setText(item.getDescription());
         }
-        public void bindOnClickListener(int position){
-            mPosit =position;
-            mAddButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mViewModel.getItemCategories().addNumberInItem(mPosit)){
+        public void bindOnClickListener(final int position){
+            if(ItemInOrderList.getItemInOrderList().HasItem(position)){
+                mNumberTextView.setText(""+ItemInOrderList.getItemInOrderList().getItemNumber(position));
+                mAddButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ItemInOrderList.getItemInOrderList().IncreaseItemNumber(position);
+                        mNumberTextView.setText(""+ItemInOrderList.getItemInOrderList().getItemNumber(position));
+                    }
+                });
+                mSubButton.setVisibility(View.VISIBLE);
+                mSubButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(ItemInOrderList.getItemInOrderList().subNumberInItem(position)){
+                            mSubButton.setAnimation(ButtonAnimation.getHiddenAnimation());
+                            mSubButton.setVisibility(View.INVISIBLE);
+                            mNumberTextView.setText(null);
+                            mSubButton.setOnClickListener(null);
+                        }else{
+                            mNumberTextView.setText(""+ItemInOrderList.getItemInOrderList().getItemNumber(position));
+                        }
+                    }
+                });
+            }else{
+                mNumberTextView.setText(null);
+                mSubButton.setOnClickListener(null);
+                mSubButton.setVisibility(View.INVISIBLE);
+                mAddButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("TAG","onClick!");
+                        ItemInOrderList.getItemInOrderList().addNumberInItem(position);
                         mSubButton.setAnimation(ButtonAnimation.getShowAnimation());
                         mSubButton.setVisibility(View.VISIBLE);
                         mSubButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(mViewModel.getItemCategories().subNumberInItem(mPosit)){
+                                if(ItemInOrderList.getItemInOrderList().subNumberInItem(position)){
                                     mSubButton.setAnimation(ButtonAnimation.getHiddenAnimation());
                                     mSubButton.setVisibility(View.INVISIBLE);
                                     mNumberTextView.setText(null);
                                     mSubButton.setOnClickListener(null);
                                 }else{
-                                    mNumberTextView.setText(""+mViewModel.getItemCategories().getNumber(mPosit));
+                                    mNumberTextView.setText(""+ItemInOrderList.getItemInOrderList().getItemNumber(position));
                                 }
                             }
                         });
+                        mNumberTextView.setText(""+ItemInOrderList.getItemInOrderList().getItemNumber(position));
+
+
                     }
-                    mNumberTextView.setText(""+mViewModel.getItemCategories().getNumber(mPosit));
+                });
 
+            }
 
-                }
-            });
         }
     }
     public class ItemAdaptor extends RecyclerView.Adapter<ItemHolder>{
@@ -271,7 +309,13 @@ public class ShoppingFragment extends Fragment  {
         @Override
         public int getItemCount() {
 
-            return mItemCategories.getItemCounts();
+            if(mItemCategories==null){
+                return 0;
+            }
+            else{
+                return mItemCategories.getItemCounts();
+            }
+
         }
 
     }
@@ -288,10 +332,11 @@ public class ShoppingFragment extends Fragment  {
         @Override
         protected void onPostExecute(ItemCategories result) {
 
-            Database database  = Database.getDatabase(getActivity());
+            //Database database  = Database.getDatabase(getActivity());
             //database.addCategories(result);
-            mSection.setAdapter(new SectionAdaptor(result));
             mViewModel.setItemCategories(result);
+            ItemCategories.setItemCategories(result);
+            mSection.setAdapter(new SectionAdaptor(result));
             mListItem.setAdapter(new ItemAdaptor(result));
             Log.i("TAG",""+ result.getItemCounts()+" "+result.getSectionCounts());
         }

@@ -17,4 +17,7 @@
     <string name="money_text">￥0</string>
     <string name="least_money_string">¥30起送</string>
     <string name="item_picture">item picture</string>
+    <string name="shoppinglist">ShoppingList</string>
+    <string name="shopping_trolley">Shopping trolley</string>
+    <string name="user_info">user_info</string>
 </resources>

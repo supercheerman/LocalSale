@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBCHelper {
+
     private static final String TAG ="DBCHelper";
     private String dbName= "loacalSales";
     private String password = "h1587966";
@@ -33,8 +34,9 @@ public class DBCHelper {
 
     }
 
-    public static ItemCategories.Item createItem(String name,float price,String description){
+    public static ItemCategories.Item createItem(int ID,String name,float price,String description){
         ItemCategories.Item item = new ItemCategories.Item();
+        item.setID(ID);
         item.setName(name);
         item.setDescription(description);
         item.setPrice(price);

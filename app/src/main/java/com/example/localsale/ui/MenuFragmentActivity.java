@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.localsale.R;
+import com.example.localsale.ui.Navigation.NavigationFragment;
 
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,14 +16,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-public abstract class SingleFragmentActivity extends AppCompatActivity {
+public abstract class MenuFragmentActivity extends AppCompatActivity {
     protected abstract Fragment createFragment();
+    protected abstract Fragment createNavigationFragment();
     private static int REQUEST_PERMISSION_CODE = 1;
 
 
     @LayoutRes
     protected int  getLayoutResId(){//重写该方法，设置activity含有多个fragment
-        return R.layout.single_activity_fragment;
+        return R.layout.activity_fragment;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +32,25 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         setContentView(getLayoutResId());
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment =fm.findFragmentById(R.id.fragment_container);
-
+        Fragment menuFragment =fm.findFragmentById(R.id.menu_container);
         if(fragment==null){
             fragment = createFragment();
             fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
         }
+        if(menuFragment==null){
+            menuFragment = createNavigationFragment();
+            fm.beginTransaction().add(R.id.menu_container,menuFragment).commit();
+        }
         initPermissonRequest(this);
+    }
+    public void changFragment(int id,Fragment fragment ){
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(id,fragment).commit();
     }
 
     /*
-    * 动态获取本地的读写文件的权限，PERMISSIONS_STORAGE为需要获取的权限
-    * */
+     * 动态获取本地的读写文件的权限，PERMISSIONS_STORAGE为需要获取的权限
+     * */
     private void initPermissonRequest(Context context){
 
 
@@ -60,16 +71,3 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     }
 }
-/*Copyright [yyyy] [name of copyright owner]
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.*/

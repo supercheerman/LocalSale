@@ -6,13 +6,8 @@
     <!-- 边框 -->
     <stroke
         android:width="1dip"
-        android:color="#ffffff" />
+        android:color="#EEEEEE" />
     <!-- 内填充颜色 -->
-    <padding
-        android:bottom="10dp"
-        android:left="10dp"
-        android:right="10dp"
-        android:top="10dp" />
     <!-- 圆角 -->
     <corners android:radius="6dp" />
 

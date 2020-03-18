@@ -16,10 +16,11 @@ public class ItemInfoCursorWrapper extends CursorWrapper {
 
     public ItemCategories.Item getLocalDBItem(){//getString之类方法应该是其内置从库中获取数据的方法，而且这个方法会记录访问的位置
         //可以遍历以获取所有行。
+        int ID = getInt(getColumnIndex(DbSchema.ItemInfoTable.Cols.ID));
         String name =getString(getColumnIndex(DbSchema.ItemInfoTable.Cols.NAME));
         String description=getString(getColumnIndex(DbSchema.ItemInfoTable.Cols.DESCRIPTION));
         float price = getFloat(getColumnIndex(DbSchema.ItemInfoTable.Cols.PRICE));
-        return DBCHelper.createItem(name,price,description);
+        return DBCHelper.createItem(ID,name,price,description);
     }
 
     public String getLocalDBCategory(){

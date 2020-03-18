@@ -1,6 +1,7 @@
 package com.example.localsale.data.CloudDatabase;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.util.Log;
 
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
@@ -47,12 +48,13 @@ public class DBConnector {
             ResultSet mResultSet=st.executeQuery(sql);
 
             while(mResultSet .next()){//读表mytable中的每一列
-                String kind = mResultSet.getString(1);
+                int ID = mResultSet.getInt(1);
                 String name=mResultSet .getString(2);
-                float price = mResultSet.getFloat(3);
-                String description = mResultSet.getString(4);
+                String kind = mResultSet.getString(3);
+                float price = mResultSet.getFloat(4);
+                String description = mResultSet.getString(5);
                 Log.i(TAG,kind+name+price+description);
-                itemCategories.InsetIntoCategory(kind,DBCHelper.createItem(name,price,description));
+                itemCategories.InsetIntoCategory(kind,DBCHelper.createItem(ID,name,price,description));
             }
             connection.close();
             st.close();
@@ -66,6 +68,11 @@ public class DBConnector {
 
         }
         return null;
+
+    }
+    public static void postOrder(String dbName , String password , String sql){
+        Connection connection = DBConnector.getConnection(dbName,password);
+
 
     }
 }

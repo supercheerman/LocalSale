@@ -3,12 +3,26 @@ package com.example.localsale.ui.shoppingPlesk;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.example.localsale.data.ItemInOrderList;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 public class ItemCategories{
+
+
+    private static ItemCategories sItemCategories;
+
+
+    public static ItemCategories getItemCategories() {
+        return sItemCategories;
+    }
+
+    public static void setItemCategories(ItemCategories itemCategories) {
+        sItemCategories = itemCategories;
+    }
 
     /**
      * Holds the calculated values of @{link getPositionInSectionForPosition}
@@ -20,11 +34,13 @@ public class ItemCategories{
      * 获取一个item所在的section在section中的位置并储存到内存
      */
     private SparseArray<Integer> mSectionCache;
+
+
+
     /**
      * Holds the calculated values of @{link getCountForSection}
      * 将每一个访问过的section的item数量存储到内存中
      */
-    private SparseArray<Integer> mShoppingList;
     /**
      * Caches the item count
      */
@@ -44,7 +60,6 @@ public class ItemCategories{
 
         mSectionCache = new SparseArray<Integer>();
         mSectionPositionCache = new SparseArray<Integer>();
-        mShoppingList = new SparseArray<Integer>();
         mCount = -1;
         mSectionCount = -1;
     }
@@ -150,44 +165,8 @@ public class ItemCategories{
 
 
     }
-    /*
-    * 当商品数目为0时返回true
-    *
-    * */
-    public boolean addNumberInItem(int position){
-        if(mShoppingList.get(position)==null){
-            mShoppingList.put(position,1);
-            Log.i("TAG",position+"  "+mShoppingList.get(position));
-            return true;
-        }
-        else {
-            int tmp =mShoppingList.get(position)+1;
-            mShoppingList.remove(position);
-            mShoppingList.put(position,tmp);
-            Log.i("TAG",position+" @ "+mShoppingList.get(position)+" @ "+tmp);
-            return false;
-        }
 
-    }
-    /*
-    * 当商品数量只剩1时返回true
-    * */
-    public boolean subNumberInItem(int position){
-        if(mShoppingList.get(position)==1){
-            mShoppingList.remove(position);
-            return true;
-        } else{
-            int tmp =mShoppingList.get(position)-1;
-            mShoppingList.remove(position);
-            mShoppingList.put(position,tmp);
-            return false;
-        }
-    }
-    public int getNumber(int posit){
 
-        Log.i("TAG","@@@"+mShoppingList.toString());
-        return mShoppingList.get(posit);
-    }
 
     public static class ItemCategory {
 
@@ -223,10 +202,30 @@ public class ItemCategories{
     }
     public static class Item{
 
+        public void setID(int ID) {
+            mID = ID;
+        }
+
+        private int mID;
+
+        public int getID() {
+            return mID;
+        }
+
         private String mName ;
         private float mPrice;
         private int mNumber =0;
         private String mDescription;
+
+        public Item (){
+
+        }
+        public Item(Item item){
+            mID =item.getID();
+            mName =item.getName();
+            mPrice=item.getPrice();
+            mDescription =item.getDescription();
+        }
 
         public float getPrice() {
             return mPrice;
