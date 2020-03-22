@@ -23,7 +23,7 @@ public class JsonOrder {
                 JSONObject tmp = new JSONObject();
 
                 tmp.put("ItemID",item.getID());
-                tmp.put("Number",item.getID());
+                tmp.put("Number",item.getNumber());
                 jsonArray.put(tmp);
             }
             object.put("order",jsonArray);

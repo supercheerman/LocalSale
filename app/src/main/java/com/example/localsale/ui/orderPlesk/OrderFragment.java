@@ -1,22 +1,21 @@
 package com.example.localsale.ui.orderPlesk;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.localsale.R;
 import com.example.localsale.data.ItemInOrderList;
+import com.example.localsale.ui.addressPlesk.AddressPickerActivity;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
-import com.example.localsale.ui.shoppingPlesk.ShoppingFragment;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.DataOutputStream;
@@ -26,7 +25,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.zip.Inflater;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -39,6 +37,9 @@ public class OrderFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TextView mTotalPriceTextView;
     private ImageButton mMakeOrder;
+    private ImageView mLocationPickerButton;
+    private ImageView mTimePickerButton;
+
 
     public static OrderFragment newInstance(Context context){
         return new OrderFragment();
@@ -70,7 +71,7 @@ public class OrderFragment extends Fragment {
                         try{
                             JSONObject jsonArray = JsonOrder.ItemInOrderList2JsonArray(ItemInOrderList.getItemInOrderList());
                             Log.i("TAG",jsonArray.toString());
-                            String  path="http://106.54.98.211/json.php";
+                            String  path="http://106.54.98.211/sql.php";
                             HttpURLConnection connection =(HttpURLConnection) new URL(path).openConnection();
                             connection.setRequestMethod("POST");
                             connection.connect();
@@ -91,11 +92,15 @@ public class OrderFragment extends Fragment {
                         }
                     }
                 }).start();
+            }
+        });
 
-
-
-
-
+        mLocationPickerButton = view.findViewById(R.id.location_choose_text_view);
+        mLocationPickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AddressPickerActivity.newIntent(getContext());
+                startActivity(intent);
             }
         });
         return view;

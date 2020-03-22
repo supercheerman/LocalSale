@@ -20,4 +20,7 @@
     <string name="shoppinglist">ShoppingList</string>
     <string name="shopping_trolley">Shopping trolley</string>
     <string name="user_info">user_info</string>
+    <string name="edit_address">修改信息</string>
+    <string name="choose_picker">选择配送地点</string>
+    <string name="time_picker">请选择配送时间</string>
 </resources>

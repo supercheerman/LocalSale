@@ -28,6 +28,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.orderPlesk.OrderActivity"/>
+        <activity android:name=".ui.addressPlesk.AddressPickerActivity"></activity>
+        <activity android:name=".ui.addressPlesk.AddAddressActivity"/>
+
     </application>
 
 </manifest>
