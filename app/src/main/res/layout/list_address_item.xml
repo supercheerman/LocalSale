@@ -7,11 +7,14 @@
     android:layout_height="100dp"
     android:padding="5dp">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/address_check_box_button"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
+        android:src="@android:drawable/checkbox_off_background"
+        android:background="#FFFFFF"
         app:srcCompat="@android:drawable/checkbox_off_background" />
 
     <LinearLayout

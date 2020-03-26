@@ -28,8 +28,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.orderPlesk.OrderActivity"/>
-        <activity android:name=".ui.addressPlesk.AddressPickerActivity"></activity>
+        <activity android:name=".ui.addressPlesk.AddressPickerActivity">
+
+        </activity>
         <activity android:name=".ui.addressPlesk.AddAddressActivity"/>
+        <activity android:name=".ui.TimePlesk.DeliverTimePickerActivity"
+            android:theme="@style/MyToolsAddAvatar">
+
+        </activity>
 
     </application>
 

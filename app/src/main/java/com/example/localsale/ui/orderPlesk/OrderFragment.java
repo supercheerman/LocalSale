@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.example.localsale.R;
 import com.example.localsale.data.ItemInOrderList;
+import com.example.localsale.ui.TimePlesk.DeliverTimePickerActivity;
+import com.example.localsale.ui.addressPlesk.AddressList;
 import com.example.localsale.ui.addressPlesk.AddressPickerActivity;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
@@ -39,6 +41,8 @@ public class OrderFragment extends Fragment {
     private ImageButton mMakeOrder;
     private ImageView mLocationPickerButton;
     private ImageView mTimePickerButton;
+    private TextView mAddressTextView;
+    private AddressList mAddressList;
 
 
     public static OrderFragment newInstance(Context context){
@@ -50,6 +54,7 @@ public class OrderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mItemInOrderList = ItemInOrderList.getItemInOrderList();
+        mAddressList =AddressList.getAddressList();
 
     }
     @Override
@@ -95,11 +100,21 @@ public class OrderFragment extends Fragment {
             }
         });
 
-        mLocationPickerButton = view.findViewById(R.id.location_choose_text_view);
+        mLocationPickerButton = view.findViewById(R.id.location_choose_image_view);
         mLocationPickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = AddressPickerActivity.newIntent(getContext());
+                startActivity(intent);
+            }
+        });
+        mAddressTextView = view.findViewById(R.id.location_text_view);
+        mAddressTextView.setText(mAddressList.getCurrentAddressInfo());
+        mTimePickerButton = view.findViewById(R.id.time_choose_image_view);
+        mTimePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = DeliverTimePickerActivity.newIntent(getContext());
                 startActivity(intent);
             }
         });
@@ -153,6 +168,12 @@ public class OrderFragment extends Fragment {
             }
            return 0;
         }
+    }
+    @Override
+    public  void onResume() {
+        super.onResume();
+        mAddressList = AddressList.getAddressList();
+        mAddressTextView.setText(mAddressList.getCurrentAddressInfo());
     }
 
 

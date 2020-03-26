@@ -1,5 +1,7 @@
 package com.example.localsale.ui.addressPlesk;
 
+import com.example.localsale.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +9,25 @@ public class AddressList {
 
     private static AddressList sAddressList;
     private List<AddressInfo> mAddressInfos = new ArrayList<>();
+    private int currentIndex=-1;
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
+    }
 
 
+    public String getCurrentAddressInfo(){
+        if(currentIndex==-1){
+            return  "请选择配送地点";
+        }else{
+            AddressInfo info =getAddressInfoItem(currentIndex);
+            return info.getName()+"  "+info.getPhoneNumber()+"  "+info.getDormitory()+" "+info.getRoomNumber();
+        }
+    }
     public static AddressList getAddressList() {
         if(sAddressList==null){
             sAddressList  = new AddressList();
@@ -39,6 +58,13 @@ public class AddressList {
         info.setPhoneNumber(phoneNumber);
         mAddressInfos.add(info);
 
+    }
+    public void addAddressInfo(String dormitory, String roomNumber,String name,String phoneNumber,int posit){
+        AddressInfo info = getAddressInfoItem(posit);
+        info.setDormitory(dormitory);
+        info.setRoomNumber(roomNumber);
+        info.setName(name);
+        info.setPhoneNumber(phoneNumber);
     }
 
     public class AddressInfo{
