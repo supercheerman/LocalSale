@@ -97,6 +97,7 @@ public class RegisterFragment extends Fragment {
             public void onClick(View v) {
                 mModel.registerUser(mDatabase,mUsernameEditText.getText().toString(),
                         mPasswordEditText.getText().toString());
+                getActivity().finish();
             }
         });
 

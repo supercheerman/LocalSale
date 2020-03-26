@@ -131,8 +131,11 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(mDatabase,usernameEditText.getText().toString(),
+                boolean result= loginViewModel.login(mDatabase,usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+                if(result){
+                    getActivity().finish();
+                }
             }
         });
         registerButton.setOnClickListener(new View.OnClickListener() {

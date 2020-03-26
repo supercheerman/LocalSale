@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:padding="1dp"
     android:orientation="horizontal">
 
     <TextView
@@ -10,6 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
+        android:gravity="center"
+        android:background="#FFFFFF"
         android:text="TextView" />
 
     <TextView
@@ -17,12 +20,15 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="4"
+        android:gravity="center"
+        android:background="#FFFFFF"
         android:text="TextView" />
 
     <ImageView
         android:id="@+id/item_chosen_image_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         android:layout_weight="1"
-        app:srcCompat="@android:color/background_light" />
+        />
 </LinearLayout>

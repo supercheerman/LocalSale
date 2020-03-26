@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.localsale.R;
 import com.example.localsale.data.ItemInOrderList;
 import com.example.localsale.ui.TimePlesk.DeliverTimePickerActivity;
+import com.example.localsale.ui.TimePlesk.TimeList;
 import com.example.localsale.ui.addressPlesk.AddressList;
 import com.example.localsale.ui.addressPlesk.AddressPickerActivity;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
@@ -42,7 +43,7 @@ public class OrderFragment extends Fragment {
     private ImageView mLocationPickerButton;
     private ImageView mTimePickerButton;
     private TextView mAddressTextView;
-    private AddressList mAddressList;
+    private TextView mTimeTextView;
 
 
     public static OrderFragment newInstance(Context context){
@@ -54,7 +55,6 @@ public class OrderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mItemInOrderList = ItemInOrderList.getItemInOrderList();
-        mAddressList =AddressList.getAddressList();
 
     }
     @Override
@@ -109,7 +109,8 @@ public class OrderFragment extends Fragment {
             }
         });
         mAddressTextView = view.findViewById(R.id.location_text_view);
-        mAddressTextView.setText(mAddressList.getCurrentAddressInfo());
+        mTimeTextView = view.findViewById(R.id.time_text_view);
+        bindText();
         mTimePickerButton = view.findViewById(R.id.time_choose_image_view);
         mTimePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,8 +173,15 @@ public class OrderFragment extends Fragment {
     @Override
     public  void onResume() {
         super.onResume();
-        mAddressList = AddressList.getAddressList();
-        mAddressTextView.setText(mAddressList.getCurrentAddressInfo());
+        bindText();
+    }
+    /*
+    * 用于在页面刚开始加载和启动另一个页面时返回调用，用来绑定选择的地址和配送时间
+    * */
+    public void bindText(){
+
+        mAddressTextView.setText(AddressList.getAddressList().getCurrentAddressInfo());
+        mTimeTextView.setText(TimeList.getTimeList().getCurrentTimeInfo());
     }
 
 

@@ -2,8 +2,11 @@ package com.example.localsale.ui.TimePlesk;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.AndroidException;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +54,23 @@ public class DeliverTimePickerActivity extends AppCompatActivity {
             mTimeTextView.setText(item.getTime());
 
         }
+        public void bindListener(final int posit){
+            mTimeTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int previous = TimeList.getTimeList().getList().getCurrentIndex();
+                    if(previous!=-1){
+                        ImageView imageView = mRecyclerView.getChildAt(previous).findViewById(R.id.item_chosen_image_view);
+                        imageView.setImageDrawable(null);
+                    }
+                    mTimeList.getList().setCurrentIndex(posit);
+                    Drawable drawable = getDrawable(android.R.drawable.presence_online);
+                    mImageView.setImageDrawable(drawable);
+
+                }
+            });
+        }
+
     }
     public class TimePickerHolderAdaptor extends RecyclerView.Adapter<TimePickerHolder>{
         private TimeList mTimeList = TimeList.getTimeList();
@@ -65,6 +85,7 @@ public class DeliverTimePickerActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull TimePickerHolder holder, int position) {
 
             holder.bindText(mTimeList.getList().getItem(position));
+            holder.bindListener(position);
         }
 
         @Override

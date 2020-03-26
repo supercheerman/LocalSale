@@ -4,6 +4,7 @@ package com.example.localsale.ui.TimePlesk;
 import android.util.Log;
 
 import com.example.localsale.data.ItemList;
+import com.example.localsale.ui.addressPlesk.AddressList;
 
 import java.util.Calendar;
 
@@ -32,8 +33,19 @@ public class TimeList {
     public static void setTimeList(TimeList timeList) {
         sTimeList = timeList;
     }
+    public String getCurrentTimeInfo(){
+        if(mList.getCurrentIndex()==-1){
+            return  "请选择配送时间";
+        }else{
+            TimeItem info =mList.getCurrentItem();
+            return info.getDay()+"  "+info.getTime();
+        }
+    }
 
     public void initial(){
+        //???
+        //the hour may not be 24-hours system
+        //???
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         Log.i("TAG","@______@"+hour);
         if(hour<11){

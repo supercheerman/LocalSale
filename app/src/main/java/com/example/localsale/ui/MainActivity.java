@@ -7,6 +7,7 @@ import com.example.localsale.R;
 import com.example.localsale.ui.MenuFragmentActivity;
 import com.example.localsale.ui.Navigation.NavigationFragment;
 import com.example.localsale.ui.SingleFragmentActivity;
+import com.example.localsale.ui.login.LoginActivity;
 import com.example.localsale.ui.login.LoginFragment;
 import com.example.localsale.ui.orderPlesk.OrderActivity;
 import com.example.localsale.ui.orderPlesk.OrderFragment;
@@ -41,8 +42,8 @@ public class MainActivity extends MenuFragmentActivity {
 
             @Override
             public void userInfoButtonClick() {
-                Fragment fragment = RegisterFragment.newInstance(getApplicationContext());
-                changFragment(R.id.fragment_container,fragment);
+                Intent intent = LoginActivity.newIntent(getApplicationContext());
+                startActivity(intent);
             }
         });
     }
