@@ -13,6 +13,7 @@ import com.example.localsale.ui.orderPlesk.OrderActivity;
 import com.example.localsale.ui.orderPlesk.OrderFragment;
 import com.example.localsale.ui.register.RegisterFragment;
 import com.example.localsale.ui.shoppingPlesk.ShoppingFragment;
+import com.example.localsale.ui.userPlesk.UserPleskFragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -27,7 +28,7 @@ public class MainActivity extends MenuFragmentActivity {
 
     @Override
     protected Fragment createNavigationFragment() {
-        return NavigationFragment.newInstance(this, new onClickListener() {
+        return NavigationFragment.newInstance(this, new NavigationFragment.onClickListener() {
             @Override
             public void shoppingListButtonClick() {
                 Fragment fragment = ShoppingFragment.newInstance(getApplicationContext());
@@ -42,15 +43,14 @@ public class MainActivity extends MenuFragmentActivity {
 
             @Override
             public void userInfoButtonClick() {
-                Intent intent = LoginActivity.newIntent(getApplicationContext());
-                startActivity(intent);
+                //Intent intent = LoginActivity.newIntent(getApplicationContext());
+               // startActivity(intent);
+                Fragment fragment = UserPleskFragment.newInstance(getApplicationContext());
+                changFragment(R.id.fragment_container,fragment);
+
             }
         });
     }
 
-    public interface onClickListener{
-        void shoppingListButtonClick();
-        void shoppingTrolleyButtonClick();
-        void userInfoButtonClick();
-    }
+
 }

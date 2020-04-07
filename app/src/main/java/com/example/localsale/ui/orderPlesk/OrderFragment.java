@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.localsale.R;
-import com.example.localsale.data.ItemInOrderList;
 import com.example.localsale.ui.TimePlesk.DeliverTimePickerActivity;
 import com.example.localsale.ui.TimePlesk.TimeList;
 import com.example.localsale.ui.addressPlesk.AddressList;
@@ -181,7 +180,7 @@ public class OrderFragment extends Fragment {
     public void bindText(){
 
         mAddressTextView.setText(AddressList.getAddressList().getCurrentAddressInfo());
-        mTimeTextView.setText(TimeList.getTimeList().getCurrentTimeInfo());
+        mTimeTextView.setText(TimeList.getInstance().getCurrentTimeInfo());
     }
 
 

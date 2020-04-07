@@ -13,6 +13,9 @@ import androidx.lifecycle.ViewModel;
 
 public class ShoppingViewModel extends ViewModel {
 
+    /*
+    *用来保存上一个被点击的
+     */
     private MutableLiveData<topElementState> mTopElementMutableLiveData = new MutableLiveData<>();
     private ItemCategories mItemCategories;
     private ShoppingModelInterface mInterface;
@@ -37,6 +40,14 @@ public class ShoppingViewModel extends ViewModel {
 
         mItemCategories =new ItemCategories();
     }
+
+    /*
+     * @param null
+     * @return
+     * @author hwh
+     * @date 2020/4/6
+     * @Description
+     **/
     public void addNumberInTop(int tmp){
 
         if(mTopElementMutableLiveData.getValue()==null){
@@ -70,7 +81,13 @@ public class ShoppingViewModel extends ViewModel {
 
 
     }
+
+    /*
+     * @author hwh
+     * @date 2020/4/6
+     * @Description 用来在改变指定Section的颜色
+     **/
     public interface ShoppingModelInterface{
-        public abstract void ChangeSectionColor(int position,String color);
+        public void ChangeSectionColor(int position,String color);
     }
 }

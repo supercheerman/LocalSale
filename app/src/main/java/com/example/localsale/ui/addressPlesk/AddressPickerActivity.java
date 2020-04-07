@@ -26,8 +26,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class AddressPickerActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
 
-
-
     public static Intent newIntent(Context packageContext){
         Intent intent =new Intent(packageContext,AddressPickerActivity.class);
         return intent;

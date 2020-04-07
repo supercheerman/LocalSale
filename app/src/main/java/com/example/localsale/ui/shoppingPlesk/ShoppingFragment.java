@@ -1,7 +1,6 @@
 package com.example.localsale.ui.shoppingPlesk;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,15 +14,12 @@ import android.widget.TextView;
 
 import com.example.localsale.R;
 import com.example.localsale.data.CloudDatabase.DBCHelper;
-import com.example.localsale.data.CloudDatabase.DBConnector;
-import com.example.localsale.data.ItemInOrderList;
+import com.example.localsale.ui.orderPlesk.ItemInOrderList;
 import com.example.localsale.data.LocalDatabase.Database;
-
-import java.sql.Connection;
+import com.example.localsale.data.UserInfo.UserInfoList;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,7 +73,6 @@ public class ShoppingFragment extends Fragment  {
                     } catch (Exception e) {
                     }
                 }
-
             }
         });
 
@@ -92,7 +87,7 @@ public class ShoppingFragment extends Fragment  {
     public class SectionHolder extends RecyclerView.ViewHolder{
 
         private TextView mTextView;
-        private OnClickInterface mClickInterface;
+
 
         public SectionHolder(LayoutInflater inflater,ViewGroup container) {
            super(inflater.inflate(R.layout.list_shopping_section,container,false));
@@ -155,10 +150,6 @@ public class ShoppingFragment extends Fragment  {
 
 
 
-    }
-
-    public interface OnClickInterface{
-        void OnClick();
     }
     public class SectionAdaptor extends RecyclerView.Adapter<SectionHolder>{
 
@@ -226,7 +217,11 @@ public class ShoppingFragment extends Fragment  {
             mDescriptionTextView.setText(item.getDescription());
         }
         public void bindOnClickListener(final int position){
+
             if(ItemInOrderList.getItemInOrderList().HasItem(position)){
+                /*
+                 * 当页面重新加载时，有的商品已经有数量需要绑定文本，显示减号图标
+                 * */
                 mNumberTextView.setText(""+ItemInOrderList.getItemInOrderList().getItemNumber(position));
                 mAddButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -250,6 +245,9 @@ public class ShoppingFragment extends Fragment  {
                     }
                 });
             }else{
+                /*
+                 * 当页面重新加载时，商品没有数量只需隐藏减号，为加号绑定动画
+                 * */
                 mNumberTextView.setText(null);
                 mSubButton.setOnClickListener(null);
                 mSubButton.setVisibility(View.INVISIBLE);
@@ -322,6 +320,9 @@ public class ShoppingFragment extends Fragment  {
     public class readDBAsyncTask extends AsyncTask<Integer, Integer, ItemCategories>{
 
 
+        /*
+        * 子线程中读取数据库中的数据
+        * */
         @Override
         protected ItemCategories doInBackground(Integer... voids) {
             Log.i("TAG","before sql");
@@ -329,11 +330,15 @@ public class ShoppingFragment extends Fragment  {
             return  helper.readResult();
         }
 
+        /*
+        * 该方法在子线程执行完毕后执行，在主线程中执行，用来设置数据显示
+        * */
         @Override
         protected void onPostExecute(ItemCategories result) {
 
             //Database database  = Database.getDatabase(getActivity());
             //database.addCategories(result);
+            UserInfoList.getInstance().setList(Database.getDatabase(getActivity()).getUsers());
             mViewModel.setItemCategories(result);
             ItemCategories.setItemCategories(result);
             mSection.setAdapter(new SectionAdaptor(result));

@@ -29,7 +29,6 @@ import androidx.lifecycle.ViewModelProviders;
 public class LoginFragment extends Fragment {
 
     private LoginViewModel loginViewModel;
-    private Database mDatabase;
     private EditText usernameEditText ;
     private EditText passwordEditText ;
     private Button loginButton ;
@@ -43,7 +42,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        mDatabase= Database.getDatabase(getActivity());
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -120,7 +118,7 @@ public class LoginFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(mDatabase,usernameEditText.getText().toString(),
+                    loginViewModel.login(usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
                 return false;//返回true，保留软键盘。false，隐藏软键盘
@@ -131,7 +129,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                boolean result= loginViewModel.login(mDatabase,usernameEditText.getText().toString(),
+                boolean result= loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
                 if(result){
                     getActivity().finish();

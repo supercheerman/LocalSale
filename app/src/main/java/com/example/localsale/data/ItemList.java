@@ -16,6 +16,15 @@ public class ItemList<T> {
     }
 
     private int currentIndex=-1;
+
+    public void setList(List<T> list) {
+        mList = list;
+    }
+
+    public List<T> getList() {
+        return mList;
+    }
+
     /**
      * 获取该例表中当前指向的项
      */

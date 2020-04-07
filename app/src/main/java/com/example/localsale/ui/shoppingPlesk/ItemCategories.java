@@ -1,14 +1,9 @@
 package com.example.localsale.ui.shoppingPlesk;
 
-import android.util.Log;
 import android.util.SparseArray;
-
-import com.example.localsale.data.ItemInOrderList;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Random;
 
 public class ItemCategories{
 
@@ -83,7 +78,13 @@ public class ItemCategories{
         }
         mSectionCount = mItemCategoryList.size();
         return mSectionCount;
-    }
+    }/*
+     * @param position
+     * @return int
+     * @author hwh
+     * @date 2020/4/6
+     * @Description 获取所给位置的Item所在种类目录在种类中的位置
+     **/
     public final int getSectionForPosition(int position) {
         // first try to retrieve values from cache
         Integer cachedSection = mSectionCache.get(position);
@@ -103,6 +104,13 @@ public class ItemCategories{
         return 0;
     }
 
+    /*
+     * @param position
+     * @return
+     * @author hwh
+     * @date 2020/4/6
+     * @Description 获取Item在所在目录中的位置
+     **/
     public int getPositionInSectionForPosition(int position) {
         // first try to retrieve values from cache
         Integer cachedPosition = mSectionPositionCache.get(position);
@@ -122,13 +130,37 @@ public class ItemCategories{
         }
         return 0;
     }
+
+   /*
+    * @param position
+    * @return ItemCategory
+    * @author hwh
+    * @date 2020/4/6
+    * @Description 获取在种类目录中给定位置的种类项
+    **/
     public ItemCategory getSectionInCategoryList(int position){
 
         return mItemCategoryList.get(position);
     }
+
+    /*
+     * @param position
+     * @return String
+     * @author hwh
+     * @date 2020/4/6
+     * @Description 获取在种类目录中给定位置的种类的种类名
+     **/
     public String getSectionInCategoryListString(int position){
         return getSectionInCategoryList(position).getCategory();
     }
+
+    /*
+     * @param position
+     * @return Item
+     * @author hwh
+     * @date 2020/4/6
+     * @Description 获取给定位置的商品项
+     **/
     public Item getItem(int position){
 
         return mItemCategoryList.get(getSectionForPosition(position)).getItems().get(getPositionInSectionForPosition(position));
@@ -137,9 +169,14 @@ public class ItemCategories{
     public String getItemString(int position){
         return getItem(position).getName();
     }
+
     /*
-    * 获得该item所在section在section例表中位置
-    * */
+     * @param null
+     * @return int
+     * @author hwh
+     * @date 2020/4/6
+     * @Description 获取到指定种类以前包括该种类一共所含商品数目
+     **/
     public int getCountTillSectionPosit(int posit){
         int count=0;
         for(int i=0;i<posit;i++){
@@ -147,6 +184,14 @@ public class ItemCategories{
         }
         return count;
     }
+
+    /*
+     * @param null
+     * @return void
+     * @author hwh
+     * @date 2020/4/6
+     * @Description 将该商品项插入到指定的目录的最后一位,只能在初始时使用，否者该类中缓存数据可能出错
+     **/
 
     public void InsetIntoCategory(String category, Item item){
 
@@ -258,26 +303,5 @@ public class ItemCategories{
         public void setName(String name) {
             mName = name;
         }
-    }
-
-    public void createForTest(){
-        mItemCategoryList.add(forTest("鸡"));
-        mItemCategoryList.add(forTest("鸭"));
-        mItemCategoryList.add(forTest("鱼"));
-        mItemCategoryList.add(forTest("猪"));
-        mItemCategoryList.add(forTest("牛"));
-    }
-    public ItemCategory forTest(String s){
-        ItemCategory itemCategory  = new ItemCategory();
-        itemCategory.setCategory(s);
-        List<Item> itemList = new ArrayList<>();
-        for(int i =0;i< new Random().nextInt(3)+5;i++){
-            Item tmp =new Item();
-            tmp.setName(s+i);
-            //Log.i("TAH","@-----@"+tmp.getName());
-            itemList.add(tmp);
-        }
-        itemCategory.setItems(itemList);
-        return itemCategory;
     }
 }

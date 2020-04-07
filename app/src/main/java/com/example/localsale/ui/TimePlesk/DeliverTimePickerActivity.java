@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.AndroidException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DeliverTimePickerActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private TimeList mTimeList;
 
     public static Intent newIntent(Context packageContext){
         Intent intent =new Intent(packageContext,DeliverTimePickerActivity.class);
@@ -32,7 +30,6 @@ public class DeliverTimePickerActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_time_picker);
         mRecyclerView= findViewById(R.id.time_picker_recycler_view);
-        mTimeList = TimeList.getTimeList();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(new TimePickerHolderAdaptor());
         super.onCreate(savedInstanceState);
@@ -58,12 +55,12 @@ public class DeliverTimePickerActivity extends AppCompatActivity {
             mTimeTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int previous = TimeList.getTimeList().getList().getCurrentIndex();
+                    int previous = TimeList.getInstance().getList().getCurrentIndex();
                     if(previous!=-1){
                         ImageView imageView = mRecyclerView.getChildAt(previous).findViewById(R.id.item_chosen_image_view);
                         imageView.setImageDrawable(null);
                     }
-                    mTimeList.getList().setCurrentIndex(posit);
+                    TimeList.getInstance().getList().setCurrentIndex(posit);
                     Drawable drawable = getDrawable(android.R.drawable.presence_online);
                     mImageView.setImageDrawable(drawable);
 
@@ -73,7 +70,7 @@ public class DeliverTimePickerActivity extends AppCompatActivity {
 
     }
     public class TimePickerHolderAdaptor extends RecyclerView.Adapter<TimePickerHolder>{
-        private TimeList mTimeList = TimeList.getTimeList();
+
         @NonNull
         @Override
         public TimePickerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,13 +81,13 @@ public class DeliverTimePickerActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull TimePickerHolder holder, int position) {
 
-            holder.bindText(mTimeList.getList().getItem(position));
+            holder.bindText(TimeList.getInstance().getList().getItem(position));
             holder.bindListener(position);
         }
 
         @Override
         public int getItemCount() {
-            return mTimeList.getList().getSize();
+            return TimeList.getInstance().getList().getSize();
         }
     }
 

@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.localsale.data.LocalDatabase.Database;
-import com.example.localsale.data.LocalDatabase.UserInfo;
+import com.example.localsale.data.UserInfo.UserInfo;
 import com.example.localsale.R;
+import com.example.localsale.data.UserInfo.UserInfoList;
 
 import java.util.List;
 
+/*
+* 该类用来控制LoginFragment中的复杂逻辑运算
+* */
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
@@ -29,27 +32,24 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public boolean login(Database database, String username, String password) {
+    /*
+    *
+     * @param username 用户名
+     * @param password  密码
+     * @return boolean  用户名存在则为true
+     * @author hwh
+     * @date 2020/3/27
+     * Method login
+     **/
+    public boolean login(String username, String password) {
         // can be launched in a separate asynchronous job
-
-
-        boolean result = isUserValidation(database,username ,password);
-
+        boolean result = UserInfoList.getInstance().isUserValidation(username,password);
         if (result) {
             loginResult.setValue(new LoginResult(username));
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }
         return result;
-    }
-
-    private boolean isUserValidation(Database database,String username, String password) {
-        List<UserInfo> list = database.getUsers();
-        for (UserInfo userInfo :list) {
-            if((userInfo.getUserName().equals(username)) && (userInfo.getUserPassword().equals(password)))
-                return true;
-        }
-        return false;
     }
 
     /*

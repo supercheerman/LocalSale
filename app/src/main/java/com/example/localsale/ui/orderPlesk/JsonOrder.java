@@ -2,7 +2,6 @@ package com.example.localsale.ui.orderPlesk;
 
 import android.util.Log;
 
-import com.example.localsale.data.ItemInOrderList;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
 import org.json.JSONArray;

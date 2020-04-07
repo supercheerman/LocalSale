@@ -41,7 +41,7 @@ public abstract class MenuFragmentActivity extends AppCompatActivity {
             menuFragment = createNavigationFragment();
             fm.beginTransaction().add(R.id.menu_container,menuFragment).commit();
         }
-        initPermissonRequest(this);
+        initPermissionRequest(this);
     }
     public void changFragment(int id,Fragment fragment ){
         FragmentManager fm = getSupportFragmentManager();
@@ -51,7 +51,7 @@ public abstract class MenuFragmentActivity extends AppCompatActivity {
     /*
      * 动态获取本地的读写文件的权限，PERMISSIONS_STORAGE为需要获取的权限
      * */
-    private void initPermissonRequest(Context context){
+    private void initPermissionRequest(Context context){
 
 
         String[] PERMISSIONS_STORAGE = {

@@ -5,6 +5,7 @@ import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.localsale.data.LocalDatabase.DbSchema.UserInfoTable;
+import com.example.localsale.data.UserInfo.UserInfo;
 
 public class UserInfoCursorWrapper extends CursorWrapper {
     public UserInfoCursorWrapper(Cursor cursor){

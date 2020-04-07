@@ -70,7 +70,7 @@ public class AddAddressActivity extends AppCompatActivity {
     * 如果创建时intent含有addressInfo则将其绑定到文本框中
     *
     * */
-    public void bindText(){
+    private void bindText(){
         Intent intent = getIntent();
         edit_item_index =intent.getIntExtra("addressInfoIndex",-1);
         if(edit_item_index==-1){

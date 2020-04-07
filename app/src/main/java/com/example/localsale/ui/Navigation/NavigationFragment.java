@@ -18,9 +18,9 @@ public class NavigationFragment extends Fragment {
     private Button mShoppingListButton;
     private Button mShoppingTrolleyButton;
     private Button mUserInfoButton;
-    private static MainActivity.onClickListener mOnClickListener;
+    private static onClickListener mOnClickListener;
 
-    public static NavigationFragment newInstance(Context context , MainActivity.onClickListener listener){
+    public static NavigationFragment newInstance(Context context , onClickListener listener){
 
         mOnClickListener = listener;
         return new NavigationFragment();
@@ -64,6 +64,11 @@ public class NavigationFragment extends Fragment {
 
     }
 
-
+    public interface onClickListener{
+        void shoppingListButtonClick();
+        void shoppingTrolleyButtonClick();
+        void userInfoButtonClick();
+    }
 
 }
+

@@ -1,19 +1,16 @@
 package com.example.localsale.data.LocalDatabase;
 
-import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.localsale.data.LocalDatabase.DbSchema.*;
+import com.example.localsale.data.UserInfo.UserInfo;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Database {
 
