@@ -36,6 +36,7 @@
             android:theme="@style/MyToolsAddAvatar">
 
         </activity>
+        <activity android:name=".ui.TotalOrderPlesk.TotalOrderActivity"/>
 
     </application>
 
