@@ -247,6 +247,14 @@ public class ItemCategories{
     }
     public static class Item{
 
+        public static Item createItem(int ID,String name,float price,String description){
+            Item item = new ItemCategories.Item();
+            item.setID(ID);
+            item.setName(name);
+            item.setDescription(description);
+            item.setPrice(price);
+            return item;
+        }
         public void setID(int ID) {
             mID = ID;
         }

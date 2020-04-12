@@ -1,47 +1,34 @@
 package com.example.localsale.data.CloudDatabase;
 
-import android.content.ClipData;
 import android.util.Log;
 
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
 public class DBCHelper {
 
     private static final String TAG ="DBCHelper";
-    private String dbName= "loacalSales";
-    private String password = "h1587966";
-    private String mSql;
+    private  String dbName= "loacalSales";
+    private  String password = "h1587966";
 
-    public  DBCHelper (String sql){
-       mSql= sql;
-    }
-
-    public ItemCategories readResult(){
-
-
+    public ItemCategories getItemCategoriesFromDB(){
         try{
-            ItemCategories  itemCategories = DBConnector.getSqlResultSet(dbName,password,mSql);
-            return itemCategories ;
+            return DBConnector.getItemCategoriesFromDB(dbName,password, "select * from foodtable");
         }catch (Exception ex){
-            Log.e(TAG,"TAG"+ex);
+            Log.e(TAG,"SQLConnect",ex );
         }
         return null;
-
-
+    }
+    public List getTotalOrderList(){
+        try{
+            return DBConnector.getOrderFromDB(dbName,password, "select * from orderlist");
+        }catch (Exception ex){
+            Log.e(TAG,"SQLConnect",ex );
+        }
+        return null;
     }
 
-    public static ItemCategories.Item createItem(int ID,String name,float price,String description){
-        ItemCategories.Item item = new ItemCategories.Item();
-        item.setID(ID);
-        item.setName(name);
-        item.setDescription(description);
-        item.setPrice(price);
-        return item;
-    }
 
 
 

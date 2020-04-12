@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.localsale.R;
 import com.example.localsale.data.CloudDatabase.DBCHelper;
+import com.example.localsale.ui.TotalOrderPlesk.OrderList;
 import com.example.localsale.ui.orderPlesk.ItemInOrderList;
 import com.example.localsale.data.LocalDatabase.Database;
 import com.example.localsale.data.UserInfo.UserInfoList;
@@ -326,8 +327,9 @@ public class ShoppingFragment extends Fragment  {
         @Override
         protected ItemCategories doInBackground(Integer... voids) {
             Log.i("TAG","before sql");
-            DBCHelper helper = new DBCHelper("select * from foodtable");
-            return  helper.readResult();
+            DBCHelper helper = new DBCHelper();
+           // OrderList.getOrderList();
+            return  helper.getItemCategoriesFromDB();
         }
 
         /*

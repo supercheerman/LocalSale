@@ -20,7 +20,7 @@ public class ItemInfoCursorWrapper extends CursorWrapper {
         String name =getString(getColumnIndex(DbSchema.ItemInfoTable.Cols.NAME));
         String description=getString(getColumnIndex(DbSchema.ItemInfoTable.Cols.DESCRIPTION));
         float price = getFloat(getColumnIndex(DbSchema.ItemInfoTable.Cols.PRICE));
-        return DBCHelper.createItem(ID,name,price,description);
+        return ItemCategories.Item.createItem(ID,name,price,description);
     }
 
     public String getLocalDBCategory(){

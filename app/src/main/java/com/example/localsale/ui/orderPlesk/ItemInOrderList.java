@@ -17,6 +17,27 @@ public class ItemInOrderList {
     /*由于hash不能按顺序存取，所以备份其索引项*/
     List<Integer> mIntegers =new ArrayList<>();
 
+    private String orderID;
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
+    /*
+ * @param null
+ * @return
+ * @author hwh
+ * @date 2020/4/12
+ * @Description 为了将从数据库中得到的位置数量对转化为订单对象中的项
+ **/
+    public void DBToItemInOrderList(int position,int number){
+        ItemCategories.Item item = ItemCategories.getItemCategories().getItem(position);
+        addItemInToOrderList(position,item,number);
+    }
 
     public static ItemInOrderList getItemInOrderList(){
         if(sItemInOrderList==null){
@@ -32,11 +53,15 @@ public class ItemInOrderList {
      * @date 2020/4/7
      * @Description 将该Item项加入到hash表中
      **/
-    public void addItemInToOrderList(int posit,ItemCategories.Item item){
+    public void addItemInToOrderList(int posit,ItemCategories.Item item,int number){
         ItemCategories.Item  tmp = new ItemCategories.Item(item);
-        tmp.setNumber(1);
+        tmp.setNumber(number);
         mIntegers.add(posit);
         mItems.put(posit,tmp);
+    }
+
+    public void addItemInToOrderList(int posit,ItemCategories.Item item){
+       addItemInToOrderList(posit,item,1);
     }
 
     /*
