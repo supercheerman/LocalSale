@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.localsale.R;
+import com.example.localsale.data.JsonSender.JsonOrder;
+import com.example.localsale.data.JsonSender.JsonSender;
+import com.example.localsale.data.LocalDatabase.Database;
 import com.example.localsale.ui.TimePlesk.DeliverTimePickerActivity;
 import com.example.localsale.ui.TimePlesk.TimeList;
 import com.example.localsale.ui.addressPlesk.AddressList;
@@ -72,30 +75,14 @@ public class OrderFragment extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try{
-                            JSONObject jsonArray = JsonOrder.ItemInOrderList2JsonArray(ItemInOrderList.getItemInOrderList());
-                            Log.i("TAG",jsonArray.toString());
-                            String  path="http://106.54.98.211/sql.php";
-                            HttpURLConnection connection =(HttpURLConnection) new URL(path).openConnection();
-                            connection.setRequestMethod("POST");
-                            connection.connect();
-                            OutputStream outputStream = connection.getOutputStream();
-                            DataOutputStream dataOutputStream =new DataOutputStream(outputStream);
-                            dataOutputStream.writeBytes(jsonArray.toString());
-                            dataOutputStream.flush();
-                            outputStream.close();
-                            dataOutputStream.close();
-                            InputStream inputStream = connection.getInputStream();
-                            byte [] m= new byte[1000];
-                            inputStream.read(m);
-                            Log.i("TAG",m.toString());
-                        }catch (MalformedURLException ex){
-                            Log.i("TAG","@_____@",ex);
-                        }catch (IOException ex){
-                            Log.i("TAG","@_____@",ex);
-                        }
+                        JSONObject jsonArray = JsonOrder.ItemInOrderList2JsonArray(ItemInOrderList.getItemInOrderList());
+                        Log.i("TAG",jsonArray.toString());
+                        JsonSender.sendToPHP(jsonArray);
+
                     }
                 }).start();
+                Database.getDatabase(getContext()).addOrder(ItemInOrderList.getItemInOrderList());
+
             }
         });
 

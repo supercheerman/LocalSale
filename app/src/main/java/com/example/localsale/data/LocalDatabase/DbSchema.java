@@ -21,5 +21,22 @@ public class DbSchema{
 
         }
     }
+    public static final class OlderInfoTable{
+        public static final String NAME ="orderlist";
+        public static final int NUMBER = 18;
+        public static final class Cols{
+            public static final String OrderID ="olderId";
+        }
+    }
+
+    public static final class addressInfotable{
+        public static final String NAME ="addresslist";
+        public static final class Cols{
+            public static final String Dormitory ="dormitory";
+            public static final String RoomNumber ="roomNumber";
+            public static final String Name ="name";
+            public static final String PhoneNumber ="phoneNumber";
+        }
+    }
 
 }

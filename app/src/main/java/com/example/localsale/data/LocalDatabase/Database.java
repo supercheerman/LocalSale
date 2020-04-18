@@ -4,9 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.localsale.data.LocalDatabase.DbSchema.*;
 import com.example.localsale.data.UserInfo.UserInfo;
+import com.example.localsale.ui.TotalOrderPlesk.OrderList;
+import com.example.localsale.ui.addressPlesk.AddressList;
+import com.example.localsale.ui.orderPlesk.ItemInOrderList;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
 import java.util.ArrayList;
@@ -27,6 +31,12 @@ public class Database {
         }
         return mStaticDatebase;
     }
+
+
+
+
+
+
     public void addUser(String userName,String userPassword){
 
         ContentValues values= new ContentValues();
@@ -52,18 +62,10 @@ public class Database {
 
     }
 
-    public void addCategories(ItemCategories itemCategories){
-        List<ItemCategories.ItemCategory> categoryList =  itemCategories.getItemCategoryList();
-        int size = categoryList.size();
-        for(int i=0;i<size;i++){
-            List<ItemCategories.Item> items = categoryList.get(i).getItems();
-            String category = categoryList.get(i).getCategory();
-            int tmp =items.size();
-            for(int i1 = 0;i1<tmp;i1++){
-                addItem(category,items.get(i1));
-            }
-        }
-    }
+
+
+
+
     public void addItem(String category, ItemCategories.Item item){
 
         ContentValues values= new ContentValues();
@@ -92,6 +94,81 @@ public class Database {
     }
 
 
+
+
+    /*
+     * @param null
+     * @return
+     * @author hwh
+     * @date 2020/4/14
+     * @Description  将itemInOrderList对象中的订单对象存储到本地数据库中啊
+     **/
+    public void addOrder(ItemInOrderList itemInOrderList){
+        ContentValues values= new ContentValues();
+        values.put(OlderInfoTable.Cols.OrderID,ItemInOrderList.getOrderIdByTime());
+
+        for(int j=0;j<OlderInfoTable.NUMBER;j++){
+            values.put("Item"+j,0);
+        }
+        for(int i =0;i<itemInOrderList.getSize();i++){
+            ItemCategories.Item item = itemInOrderList.getItemFromInteger(i);
+            values.remove("Item"+item.getID());
+            values.put("Item"+item.getID(),item.getNumber());
+        }
+        Log.i("TAG OrderInfo",itemInOrderList.toString()+" "+values.toString());
+        mDatabase.insert(OlderInfoTable.NAME,null,values);
+
+    }
+
+
+    public void getOrdersInfoFromTables() {
+        OrderInfoCursorWrapper cursor =OrderInfoCursorWrapper.queryOrders(mDatabase,null,null);
+        try{
+            cursor.moveToFirst();
+            OrderList.getOrderList().clearList();
+            while (!cursor.isAfterLast()){
+                OrderList.getOrderList().addOrder( cursor.getLocalOrderList());
+                cursor.moveToNext();
+            }
+        }finally {
+            cursor.close();
+        }
+
+    }
+
+
+    public void addAddress(String dormitory, String roomNumber,String name,String phoneNumber){
+        ContentValues values= new ContentValues();
+        values.put(addressInfotable.Cols.Dormitory,dormitory);
+        values.put(addressInfotable.Cols.RoomNumber,roomNumber);
+        values.put(addressInfotable.Cols.Name,name);
+        values.put(addressInfotable.Cols.PhoneNumber,phoneNumber);
+        mDatabase.insert(OlderInfoTable.NAME,null,values);
+    }
+
+
+
+
+    public void getAddressInfoFromTables() {
+        AddressInfoCursorWrapper cursor =AddressInfoCursorWrapper.queryOrders(mDatabase,null,null);
+        try{
+            cursor.moveToFirst();
+            AddressList.getAddressList().Clear();
+            while (!cursor.isAfterLast()){
+                AddressList.getAddressList().addAddressInfo( cursor.getLocalAddressList());
+                cursor.moveToNext();
+            }
+        }finally {
+            cursor.close();
+        }
+
+    }
+
+
+
+
+
+
     public class CreateTableHelper extends SQLiteOpenHelper{
 
         private static final int VERSION=1;
@@ -115,11 +192,28 @@ public class Database {
                     ItemInfoTable.Cols.PRICE +", "+
                     ItemInfoTable.Cols.DESCRIPTION +
                     ")");
+            db.execSQL(createOrderTableSql());
+            db.execSQL("create table "+ addressInfotable.NAME + "(" +
+                    "_id integer primary key autoincrement, " +
+                    addressInfotable.Cols.Dormitory + ", " +
+                    addressInfotable.Cols.RoomNumber +", "+
+                    addressInfotable.Cols.Name +", "+
+                    addressInfotable.Cols.PhoneNumber +
+                    ")");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        }
+        private String createOrderTableSql(){
+            String  tmp = "create table "+ OlderInfoTable.NAME + "("+"_id integer primary key autoincrement, ";
+            tmp = tmp + OlderInfoTable.Cols.OrderID+",";
+            for(int i =0;i<OlderInfoTable.NUMBER-1;i++){
+                tmp+="Item"+i+", ";
+            }
+            tmp+="Item"+(OlderInfoTable.NUMBER-1)+")";
+            return tmp;
         }
     }
 

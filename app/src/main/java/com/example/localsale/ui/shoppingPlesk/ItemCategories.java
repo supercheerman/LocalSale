@@ -166,6 +166,25 @@ public class ItemCategories{
         return mItemCategoryList.get(getSectionForPosition(position)).getItems().get(getPositionInSectionForPosition(position));
 
     }
+    /*
+     * @param position
+     * @return Item
+     * @author hwh
+     * @date 2020/4/6
+     * @Description 获取给定位置的商品项
+     **/
+    public ItemCategories.Item getItemByID(int ID){
+
+
+        for(int i =0;i<getItemCounts();i++){
+            if(getItem(i).getID()==ID){
+                return getItem(i);
+            }
+        }
+        return null;
+
+    }
+
     public String getItemString(int position){
         return getItem(position).getName();
     }

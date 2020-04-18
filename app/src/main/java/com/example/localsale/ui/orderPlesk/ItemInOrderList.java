@@ -4,9 +4,14 @@ import android.util.Log;
 
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+
+import androidx.annotation.NonNull;
 
 public class ItemInOrderList {
 
@@ -34,9 +39,11 @@ public class ItemInOrderList {
  * @date 2020/4/12
  * @Description 为了将从数据库中得到的位置数量对转化为订单对象中的项
  **/
-    public void DBToItemInOrderList(int position,int number){
-        ItemCategories.Item item = ItemCategories.getItemCategories().getItem(position);
-        addItemInToOrderList(position,item,number);
+    public void DBToItemInOrderList(int ID,int number){
+        if(number ==0)
+            return;
+        ItemCategories.Item item = ItemCategories.getItemCategories().getItemByID(ID);
+        addItemInToOrderList(ID,item,number);
     }
 
     public static ItemInOrderList getItemInOrderList(){
@@ -105,8 +112,9 @@ public class ItemInOrderList {
      * @Description 将存在该索引所在的商品移除例表
      **/
     public void DeleteItemFromList(int posit){
-        mIntegers.remove(posit);
+
         mItems.remove(posit);
+        mIntegers.remove(mIntegers.indexOf(posit));
     }
     /*
      * @param null
@@ -129,7 +137,7 @@ public class ItemInOrderList {
      * @Description 获取该项的数量
      **/
     public int getItemNumber(int posit){
-        Log.i("TAG",posit+" "+mItems+"  ");
+        //Log.i("TAG",posit+" "+mItems+"  ");
         return mItems.get(posit).getNumber();
     }
     /*
@@ -218,6 +226,28 @@ public class ItemInOrderList {
 
         }
         return sum;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        String s="";
+        for(int i =0;i<getSize();i++){
+            ItemCategories.Item item = getItemFromInteger(i);
+            s+="itemID:"+item.getID()+"  itemNumber:"+item.getNumber();
+
+        }
+        return s;
+    }
+    public static String getOrderIdByTime() {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+        String newDate=sdf.format(new Date());
+        String result="";
+        Random random=new Random();
+        for(int i=0;i<3;i++){
+            result+=random.nextInt(10);
+        }
+        return newDate+result;
     }
 
 }

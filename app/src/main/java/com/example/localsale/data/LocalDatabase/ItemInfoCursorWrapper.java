@@ -31,8 +31,7 @@ public class ItemInfoCursorWrapper extends CursorWrapper {
     /*
     * 通过数据库获取查询结果，保存在UserInfoCursorWrapper中
     *
-    * */
-    public static ItemInfoCursorWrapper queryCrimes(SQLiteDatabase database, String whereClause, String[] whereArgs){
+    * */public static ItemInfoCursorWrapper queryCrimes(SQLiteDatabase database, String whereClause, String[] whereArgs){
         Cursor cursor=database.query(
                 DbSchema.ItemInfoTable.NAME,
                 null,//null代表选择所有行
@@ -45,6 +44,7 @@ public class ItemInfoCursorWrapper extends CursorWrapper {
         );
         return new ItemInfoCursorWrapper(cursor);
     }
+
 
 }
 /*Copyright [yyyy] [name of copyright owner]

@@ -20,7 +20,7 @@ import javax.xml.transform.Result;
 public class DBConnector {
     private static final String TAG ="DBConnector";
     public static Connection getConnection(String dbName,String password){
-        Connection connection;
+        Connection connection=null;
         try{
             Log.i(TAG,"before connect ");
             Class.forName("com.mysql.jdbc.Driver");
@@ -58,7 +58,15 @@ public class DBConnector {
                 Log.i(TAG,kind+name+price+description);
                 itemCategories.InsetIntoCategory(kind,ItemCategories.Item.createItem(ID,name,price,description));
             }
-            //connection.close();
+            /*mResultSet=st.executeQuery("select * from orderlist;");
+            List<ItemInOrderList> mList = new ArrayList<>();
+            while(mResultSet .next()){//读表mytable中的每一列
+
+                ItemInOrderList item = new ItemInOrderList();
+                item.setOrderID(mResultSet.getString(1));
+                Log.i("TAG",mResultSet.getString(1));
+            }*/
+            connection.close();
             st.close();
             mResultSet.close();
             return itemCategories;

@@ -36,6 +36,7 @@ public class UserInfoCursorWrapper extends CursorWrapper {
         return new UserInfoCursorWrapper(cursor);
     }
 
+
 }
 /*Copyright [yyyy] [name of copyright owner]
 

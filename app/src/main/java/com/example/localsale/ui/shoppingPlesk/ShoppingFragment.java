@@ -25,6 +25,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.example.localsale.data.CloudDatabase.DBCHelper.getDBCHelper;
+
 public class ShoppingFragment extends Fragment  {
 
     private RecyclerView mSection;
@@ -327,8 +329,7 @@ public class ShoppingFragment extends Fragment  {
         @Override
         protected ItemCategories doInBackground(Integer... voids) {
             Log.i("TAG","before sql");
-            DBCHelper helper = new DBCHelper();
-           // OrderList.getOrderList();
+            DBCHelper helper =getDBCHelper();
             return  helper.getItemCategoriesFromDB();
         }
 

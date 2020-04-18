@@ -50,6 +50,12 @@ public class AddressList {
     public AddressInfo getAddressInfoItem(int posit){
         return mAddressInfos.get(posit);
     }
+
+
+    public void Clear(){
+        mAddressInfos.clear();
+    }
+
     public void addAddressInfo(String dormitory, String roomNumber,String name,String phoneNumber){
         AddressInfo info = new AddressInfo();
         info.setDormitory(dormitory);
@@ -57,6 +63,10 @@ public class AddressList {
         info.setName(name);
         info.setPhoneNumber(phoneNumber);
         mAddressInfos.add(info);
+
+    }
+    public void addAddressInfo(AddressInfo item){
+        mAddressInfos.add(item);
 
     }
     public void addAddressInfo(String dormitory, String roomNumber,String name,String phoneNumber,int posit){
@@ -67,11 +77,21 @@ public class AddressList {
         info.setPhoneNumber(phoneNumber);
     }
 
-    public class AddressInfo{
+    public static AddressInfo createAddressInfo(String dormitory, String roomNumber,String name,String phoneNumber){
+        AddressInfo item = new AddressInfo();
+        item.dormitory = dormitory;
+        item.roomNumber = roomNumber;
+        item.name = name;
+        item.phoneNumber = phoneNumber;
+        return item;
+    }
+
+    public static class AddressInfo{
         String dormitory;
         String roomNumber;
         String name;
         String phoneNumber;
+
 
         public String getDormitory() {
             return dormitory;
