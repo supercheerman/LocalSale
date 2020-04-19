@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.localsale.R;
+import com.example.localsale.data.LocalDatabase.Database;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -90,8 +91,13 @@ public class AddressPickerActivity extends AppCompatActivity {
     }
     public class addressAdaptor extends RecyclerView.Adapter<addressItem>{
 
-        private AddressList mAddressList = AddressList.getAddressList();
+        private AddressList mAddressList ;
 
+
+        public addressAdaptor(){
+            Database.getDatabase(getApplicationContext()).getAddressInfoFromTables();
+            mAddressList = AddressList.getAddressList();
+        }
         @NonNull
         @Override
         public addressItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.localsale.R;
+import com.example.localsale.data.LocalDatabase.Database;
 
 import java.io.Serializable;
 
@@ -53,8 +54,13 @@ public class AddAddressActivity extends AppCompatActivity {
                     if(edit_item_index==-1){
                         AddressList.getAddressList().addAddressInfo(mAutoCompleteTextView.getText().toString()
                                 ,mRoomNumber.getText().toString(),mUserName.getText().toString(),mPhoneNumber.getText().toString());
+                        Database.getDatabase(getApplicationContext()).addAddress(mAutoCompleteTextView.getText().toString()
+                                ,mRoomNumber.getText().toString(),mUserName.getText().toString(),mPhoneNumber.getText().toString());
+
                     }else{
                         AddressList.getAddressList().addAddressInfo(mAutoCompleteTextView.getText().toString()
+                                ,mRoomNumber.getText().toString(),mUserName.getText().toString(),mPhoneNumber.getText().toString(),edit_item_index);
+                        Database.getDatabase(getApplicationContext()).editAddress(mAutoCompleteTextView.getText().toString()
                                 ,mRoomNumber.getText().toString(),mUserName.getText().toString(),mPhoneNumber.getText().toString(),edit_item_index);
                     }
 

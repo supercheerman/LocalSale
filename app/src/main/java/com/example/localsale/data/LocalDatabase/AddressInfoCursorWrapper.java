@@ -3,6 +3,7 @@ package com.example.localsale.data.LocalDatabase;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.localsale.ui.addressPlesk.AddressList;
 
@@ -17,6 +18,7 @@ public class AddressInfoCursorWrapper extends CursorWrapper {
     }
 
     public AddressList.AddressInfo getLocalAddressList(){
+        Log.i("TAG:Address!!",getString(0));
         String dormitory = getString(1);
         String RoomNumber = getString(2);
         String Name = getString(3);

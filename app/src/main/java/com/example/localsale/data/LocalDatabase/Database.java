@@ -137,17 +137,27 @@ public class Database {
     }
 
 
+
+
+
+
     public void addAddress(String dormitory, String roomNumber,String name,String phoneNumber){
         ContentValues values= new ContentValues();
         values.put(addressInfotable.Cols.Dormitory,dormitory);
         values.put(addressInfotable.Cols.RoomNumber,roomNumber);
         values.put(addressInfotable.Cols.Name,name);
         values.put(addressInfotable.Cols.PhoneNumber,phoneNumber);
-        mDatabase.insert(OlderInfoTable.NAME,null,values);
+        mDatabase.insert(addressInfotable.NAME,null,values);
     }
 
-
-
+    public void editAddress(String dormitory, String roomNumber,String name,String phoneNumber,int index){
+        ContentValues values= new ContentValues();
+        values.put(addressInfotable.Cols.Dormitory,dormitory);
+        values.put(addressInfotable.Cols.RoomNumber,roomNumber);
+        values.put(addressInfotable.Cols.Name,name);
+        values.put(addressInfotable.Cols.PhoneNumber,phoneNumber);
+        mDatabase.update(addressInfotable.NAME,values,"_id="+(index+1),null);
+    }
 
     public void getAddressInfoFromTables() {
         AddressInfoCursorWrapper cursor =AddressInfoCursorWrapper.queryOrders(mDatabase,null,null);
