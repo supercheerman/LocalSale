@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.localsale.R;
 import com.example.localsale.data.JsonSender.JsonOrder;
@@ -30,6 +31,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -72,6 +75,19 @@ public class OrderFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                if(AddressList.getAddressList().getCurrentAddressInfo()==null&&TimeList.getInstance().getCurrentTimeItemToString()=="请选择配送时间"){
+                    Toast.makeText(getContext(), "需要选择配送地点和时间", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(AddressList.getAddressList().getCurrentAddressInfo()==null){
+                    Toast.makeText(getContext(), "需要选择配送地点", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(TimeList.getInstance().getCurrentTimeItemToString()=="请选择配送时间"){
+                    Toast.makeText(getContext(), "需要选择配送时间", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                addItemInOrderListIntoDB();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -81,7 +97,8 @@ public class OrderFragment extends Fragment {
 
                     }
                 }).start();
-                Database.getDatabase(getContext()).addOrder(ItemInOrderList.getItemInOrderList());
+
+
 
             }
         });
@@ -107,6 +124,12 @@ public class OrderFragment extends Fragment {
         });
         return view;
     }
+    public void addItemInOrderListIntoDB(){
+        ItemInOrderList.getItemInOrderList().setAddressInfo(AddressList.getAddressList().getCurrentAddressInfo());
+        ItemInOrderList.getItemInOrderList().setDate();
+        ItemInOrderList.getItemInOrderList().setDeliverTime(TimeList.getInstance().getCurrentTimeItemToString());
+        Database.getDatabase(getContext()).addOrder(ItemInOrderList.getItemInOrderList());
+    }
 
     public class orderListViewHolder extends RecyclerView.ViewHolder{
 
@@ -128,7 +151,7 @@ public class OrderFragment extends Fragment {
         }
     }
 
-    public class orderListViewAdaptor extends RecyclerView.Adapter<orderListViewHolder>{
+    public class  orderListViewAdaptor extends RecyclerView.Adapter<orderListViewHolder>{
 
         private ItemInOrderList mItemInOrderList;
 
@@ -166,8 +189,8 @@ public class OrderFragment extends Fragment {
     * */
     public void bindText(){
 
-        mAddressTextView.setText(AddressList.getAddressList().getCurrentAddressInfo());
-        mTimeTextView.setText(TimeList.getInstance().getCurrentTimeInfo());
+        mAddressTextView.setText(AddressList.getAddressList().getCurrentAddressInfoToString());
+        mTimeTextView.setText(TimeList.getInstance().getCurrentTimeItemToString());
     }
 
 

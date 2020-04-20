@@ -26,6 +26,12 @@ public class DbSchema{
         public static final int NUMBER = 18;
         public static final class Cols{
             public static final String OrderID ="olderId";
+            public static final String OrderTime = "orderTime";
+            public static final String DeliverTime = "deliverTime";
+            public static final String Dormitory ="dormitory";
+            public static final String RoomNumber ="roomNumber";
+            public static final String Name ="name";
+            public static final String PhoneNumber ="phoneNumber";
         }
     }
 

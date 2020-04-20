@@ -1,6 +1,7 @@
 package com.example.localsale.ui.TotalOrderPlesk;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,7 +70,7 @@ public class TotalOrderFragment extends Fragment {
         public void bindText(ItemInOrderList itemInOrderList){
 
             int number = itemInOrderList.getSize();
-            order_id_text_view.setText(itemInOrderList.getOrderID());
+            order_id_text_view.setText("订单号："+itemInOrderList.getOrderID());
             if(number>0){
                 ItemCategories.Item item = itemInOrderList.getItemFromInteger(0);
                 item1.setText(item.getName());
@@ -99,6 +100,15 @@ public class TotalOrderFragment extends Fragment {
             item4_number.setText("总价:"+itemInOrderList.getTotalPrice());
 
         }
+        public void bindListener(final int index){
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = OrderShowActivity.newIntent(getContext(),index);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     public class TotalOrderAdaptor extends RecyclerView.Adapter<TotalOrderHolder>{
@@ -120,6 +130,7 @@ public class TotalOrderFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull TotalOrderHolder holder, int position) {
             holder.bindText(mOrderList.getOrder(position));
+            holder.bindListener(position);
         }
 
         @Override

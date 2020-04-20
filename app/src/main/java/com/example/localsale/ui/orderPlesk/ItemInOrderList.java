@@ -2,6 +2,8 @@ package com.example.localsale.ui.orderPlesk;
 
 import android.util.Log;
 
+import com.example.localsale.ui.TimePlesk.TimeList;
+import com.example.localsale.ui.addressPlesk.AddressList;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
 import java.text.SimpleDateFormat;
@@ -24,6 +26,41 @@ public class ItemInOrderList {
 
     private String orderID;
 
+    private String mDate;
+
+    private AddressList.AddressInfo mAddressInfo;
+
+    private String mDeliverTime;
+
+
+    public AddressList.AddressInfo getAddressInfo() {
+        return mAddressInfo;
+    }
+
+    public void setAddressInfo(AddressList.AddressInfo addressInfo) {
+        mAddressInfo = addressInfo;
+    }
+
+    public String getDeliverTime() {
+        return mDeliverTime;
+    }
+
+    public void setDeliverTime(String deliverTime) {
+        mDeliverTime = deliverTime;
+    }
+
+    public void setDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//可以方便地修改日期格式
+        mDate = dateFormat.format(new Date());
+    }
+    public void setDate(String date) {
+        mDate = date;
+    }
+
+    public String getDate() {
+        return mDate;
+    }
+
     public String getOrderID() {
         return orderID;
     }
@@ -40,6 +77,7 @@ public class ItemInOrderList {
  * @Description 为了将从数据库中得到的位置数量对转化为订单对象中的项
  **/
     public void DBToItemInOrderList(int ID,int number){
+        Log.i("TAG:bug",""+ID);
         if(number ==0)
             return;
         ItemCategories.Item item = ItemCategories.getItemCategories().getItemByID(ID);

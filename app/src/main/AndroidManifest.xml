@@ -37,7 +37,7 @@
 
         </activity>
         <activity android:name=".ui.TotalOrderPlesk.TotalOrderActivity"/>
-
+        <activity android:name=".ui.TotalOrderPlesk.OrderShowActivity"/>
     </application>
 
 </manifest>

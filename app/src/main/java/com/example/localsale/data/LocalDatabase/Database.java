@@ -106,7 +106,12 @@ public class Database {
     public void addOrder(ItemInOrderList itemInOrderList){
         ContentValues values= new ContentValues();
         values.put(OlderInfoTable.Cols.OrderID,ItemInOrderList.getOrderIdByTime());
-
+        values.put(OlderInfoTable.Cols.OrderTime,itemInOrderList.getDate());
+        values.put(OlderInfoTable.Cols.DeliverTime,itemInOrderList.getDeliverTime());
+        values.put(OlderInfoTable.Cols.Dormitory,itemInOrderList.getAddressInfo().getDormitory());
+        values.put(OlderInfoTable.Cols.RoomNumber,itemInOrderList.getAddressInfo().getRoomNumber());
+        values.put(OlderInfoTable.Cols.Name,itemInOrderList.getAddressInfo().getName());
+        values.put(OlderInfoTable.Cols.PhoneNumber,itemInOrderList.getAddressInfo().getPhoneNumber());
         for(int j=0;j<OlderInfoTable.NUMBER;j++){
             values.put("Item"+j,0);
         }
@@ -127,7 +132,7 @@ public class Database {
             cursor.moveToFirst();
             OrderList.getOrderList().clearList();
             while (!cursor.isAfterLast()){
-                OrderList.getOrderList().addOrder( cursor.getLocalOrderList());
+                OrderList.getOrderList().addOrder(cursor.getLocalOrderList());
                 cursor.moveToNext();
             }
         }finally {
@@ -219,10 +224,17 @@ public class Database {
         private String createOrderTableSql(){
             String  tmp = "create table "+ OlderInfoTable.NAME + "("+"_id integer primary key autoincrement, ";
             tmp = tmp + OlderInfoTable.Cols.OrderID+",";
+            tmp+= OlderInfoTable.Cols.OrderTime+"," ;
+            tmp+= OlderInfoTable.Cols.DeliverTime+"," ;
+            tmp+= OlderInfoTable.Cols.Dormitory+"," ;
+            tmp+= OlderInfoTable.Cols.RoomNumber+"," ;
+            tmp+= OlderInfoTable.Cols.Name+"," ;
+            tmp+= OlderInfoTable.Cols.PhoneNumber+",";
             for(int i =0;i<OlderInfoTable.NUMBER-1;i++){
                 tmp+="Item"+i+", ";
             }
             tmp+="Item"+(OlderInfoTable.NUMBER-1)+")";
+
             return tmp;
         }
     }

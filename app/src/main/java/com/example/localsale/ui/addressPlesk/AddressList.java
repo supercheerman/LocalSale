@@ -20,12 +20,20 @@ public class AddressList {
     }
 
 
-    public String getCurrentAddressInfo(){
+    public String getCurrentAddressInfoToString(){
         if(currentIndex==-1){
             return  "请选择配送地点";
         }else{
             AddressInfo info =getAddressInfoItem(currentIndex);
             return info.getName()+"  "+info.getPhoneNumber()+"  "+info.getDormitory()+" "+info.getRoomNumber();
+        }
+    }
+
+    public AddressInfo getCurrentAddressInfo(){
+        if(currentIndex==-1){
+            return  null;
+        }else{
+            return getAddressInfoItem(currentIndex);
         }
     }
     public static AddressList getAddressList() {

@@ -29,7 +29,7 @@ public class TimeList {
         return mList;
     }
 
-    public String getCurrentTimeInfo(){
+    public String getCurrentTimeItemToString(){
         if(mList.getCurrentIndex()==-1){
             return  "请选择配送时间";
         }else{

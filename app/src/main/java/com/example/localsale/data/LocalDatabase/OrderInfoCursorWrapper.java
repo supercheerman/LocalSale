@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.localsale.ui.addressPlesk.AddressList;
 import com.example.localsale.ui.orderPlesk.ItemInOrderList;
 
 public class OrderInfoCursorWrapper extends CursorWrapper {
@@ -20,9 +21,18 @@ public class OrderInfoCursorWrapper extends CursorWrapper {
     public ItemInOrderList getLocalOrderList(){
         ItemInOrderList item = new ItemInOrderList();
         item.setOrderID(getString(1));
-        for(int i=2;i<getColumnCount();i++){
+        item.setDate(getString(getColumnIndex(DbSchema.OlderInfoTable.Cols.OrderTime)));
+        item.setDate(getString(getColumnIndex(DbSchema.OlderInfoTable.Cols.DeliverTime)));
+        AddressList.AddressInfo addressInfo = new AddressList.AddressInfo();
+        addressInfo.setDormitory(getString(getColumnIndex(DbSchema.OlderInfoTable.Cols.Dormitory)));
+        addressInfo.setRoomNumber(getString(getColumnIndex(DbSchema.OlderInfoTable.Cols.RoomNumber)));
+        addressInfo.setName(getString(getColumnIndex(DbSchema.OlderInfoTable.Cols.Name)));
+        addressInfo.setPhoneNumber(getString(getColumnIndex(DbSchema.OlderInfoTable.Cols.PhoneNumber)));
+        item.setAddressInfo(addressInfo);
+        for(int i=8;i<getColumnCount();i++){
             item.DBToItemInOrderList(Integer.parseInt(getColumnName(i).replace("Item","")),getInt(i));
         }
+
         return item;
     }
     public static OrderInfoCursorWrapper queryOrders(SQLiteDatabase database, String whereClause, String[] whereArgs){
