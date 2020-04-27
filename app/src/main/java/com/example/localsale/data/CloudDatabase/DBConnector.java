@@ -24,7 +24,7 @@ public class DBConnector {
         try{
             Log.i(TAG,"before connect ");
             Class.forName("com.mysql.jdbc.Driver");
-            String ip ="106.54.98.211";
+            String ip ="103.133.177.158";
             connection = DriverManager.getConnection(
                     "jdbc:mysql://" + ip +":3306/"+dbName,
                     dbName,password
@@ -51,8 +51,8 @@ public class DBConnector {
             ItemCategories itemCategories = new ItemCategories();
             while(mResultSet .next()){//读表mytable中的每一列
                 int ID = mResultSet.getInt(1);
-                String name=mResultSet .getString(2);
-                String kind = mResultSet.getString(3);
+                String kind=mResultSet .getString(2);
+                String name = mResultSet.getString(3);
                 float price = mResultSet.getFloat(4);
                 String description = mResultSet.getString(5);
                 Log.i(TAG,kind+name+price+description);

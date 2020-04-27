@@ -11,7 +11,7 @@ public class DBCHelper {
     private static DBCHelper sDBCHelper;
     private static final String TAG ="DBCHelper";
     private  String dbName= "loacalSales";
-    private  String password = "h1587966";
+    private  String password = "1587966";
 
 
     private DBCHelper(){}
