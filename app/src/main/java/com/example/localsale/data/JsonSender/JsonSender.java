@@ -28,8 +28,9 @@ public class JsonSender {
             dataOutputStream.close();
             InputStream inputStream = connection.getInputStream();
             byte [] m= new byte[1000];
-            inputStream.read(m);
-            Log.i("TAG",m.toString());
+            int number = inputStream.read(m);
+            Log.i("TAG:php number",number+"");
+            Log.i("TAG:php",new String(m,0,number));
         }catch (MalformedURLException ex){
             Log.i("TAG","@_____@",ex);
         }catch (IOException ex){

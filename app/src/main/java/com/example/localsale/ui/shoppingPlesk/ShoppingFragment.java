@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.localsale.API.GetItemInfoAPI;
 import com.example.localsale.R;
 import com.example.localsale.data.CloudDatabase.DBCHelper;
 import com.example.localsale.ui.TotalOrderPlesk.OrderList;
@@ -329,8 +330,8 @@ public class ShoppingFragment extends Fragment  {
         @Override
         protected ItemCategories doInBackground(Integer... voids) {
             Log.i("TAG","before sql");
-            DBCHelper helper =getDBCHelper();
-            return  helper.getItemCategoriesFromDB();
+            //DBCHelper helper =getDBCHelper();
+            return  GetItemInfoAPI.getItemCategoriesFromBD();
         }
 
         /*

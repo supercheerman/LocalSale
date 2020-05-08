@@ -2,6 +2,8 @@ package com.example.localsale.ui.shoppingPlesk;
 
 import android.util.SparseArray;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -274,19 +276,22 @@ public class ItemCategories{
             item.setPrice(price);
             return item;
         }
-        public void setID(int ID) {
-            mID = ID;
-        }
 
+        @JSONField(name = "id")
         private int mID;
 
-        public int getID() {
-            return mID;
-        }
-
+        @JSONField(name = "name")
         private String mName ;
+
+        @JSONField(name = "price")
         private float mPrice;
+
+        @JSONField(name = "type")
+        private String mType;
+
         private int mNumber =0;
+
+        @JSONField(name = "description")
         private String mDescription;
 
         public Item (){
@@ -297,6 +302,22 @@ public class ItemCategories{
             mName =item.getName();
             mPrice=item.getPrice();
             mDescription =item.getDescription();
+        }
+
+        public String getType() {
+            return mType;
+        }
+
+        public void setType(String type) {
+            mType = type;
+        }
+
+        public void setID(int ID) {
+            mID = ID;
+        }
+
+        public int getID() {
+            return mID;
         }
 
         public float getPrice() {

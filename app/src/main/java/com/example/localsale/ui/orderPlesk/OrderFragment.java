@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.localsale.API.SendOrderAPI;
 import com.example.localsale.R;
 import com.example.localsale.data.JsonSender.JsonOrder;
 import com.example.localsale.data.JsonSender.JsonSender;
@@ -93,7 +94,7 @@ public class OrderFragment extends Fragment {
                     public void run() {
                         JSONObject jsonArray = JsonOrder.ItemInOrderList2JsonArray(ItemInOrderList.getItemInOrderList());
                         Log.i("TAG",jsonArray.toString());
-                        JsonSender.sendToPHP(jsonArray);
+                        SendOrderAPI.SendOrder(jsonArray);
 
                     }
                 }).start();

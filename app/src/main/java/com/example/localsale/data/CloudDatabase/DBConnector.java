@@ -57,7 +57,7 @@ public class DBConnector {
                 String description = mResultSet.getString(5);
                 Log.i(TAG,kind+name+price+description);
                 itemCategories.InsetIntoCategory(kind,ItemCategories.Item.createItem(ID,name,price,description));
-            }
+        }
             /*mResultSet=st.executeQuery("select * from orderlist;");
             List<ItemInOrderList> mList = new ArrayList<>();
             while(mResultSet .next()){//读表mytable中的每一列
