@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.example.localsale.R;
 import com.example.localsale.data.LocalDatabase.Database;
 
-import java.io.Serializable;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddAddressActivity extends AppCompatActivity {
@@ -24,7 +22,7 @@ public class AddAddressActivity extends AppCompatActivity {
     private Button mButton;
     private AutoCompleteTextView mAutoCompleteTextView;
     private static final String[] autoText = new String[]{"c3","c4","信部13舍"};
-    private int  edit_item_index=-1;
+    private int  edit_item_index=-1;//用来记录页面是新创建还是修改，创建则为-1，否则为addresslist中的序号
 
     public static Intent newIntent(Context packageContext){
         Intent intent =new Intent(packageContext,AddAddressActivity.class);
@@ -58,7 +56,7 @@ public class AddAddressActivity extends AppCompatActivity {
                                 ,mRoomNumber.getText().toString(),mUserName.getText().toString(),mPhoneNumber.getText().toString());
 
                     }else{
-                        AddressList.getAddressList().addAddressInfo(mAutoCompleteTextView.getText().toString()
+                        AddressList.getAddressList().editAddressInfo(mAutoCompleteTextView.getText().toString()
                                 ,mRoomNumber.getText().toString(),mUserName.getText().toString(),mPhoneNumber.getText().toString(),edit_item_index);
                         Database.getDatabase(getApplicationContext()).editAddress(mAutoCompleteTextView.getText().toString()
                                 ,mRoomNumber.getText().toString(),mUserName.getText().toString(),mPhoneNumber.getText().toString(),edit_item_index);

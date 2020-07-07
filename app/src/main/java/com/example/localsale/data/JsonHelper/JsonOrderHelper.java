@@ -1,6 +1,5 @@
-package com.example.localsale.data.JsonSender;
+package com.example.localsale.data.JsonHelper;
 
-import android.content.ClipData;
 import android.util.Log;
 
 import com.example.localsale.ui.orderPlesk.ItemInOrderList;
@@ -10,10 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JsonOrder {
+public class JsonOrderHelper {
 
-
-    public static JSONObject ItemInOrderList2JsonArray(ItemInOrderList itemInOrderList) {
+    public static JSONObject ItemInOrderList2JsonObject(ItemInOrderList itemInOrderList, String username) {
 
         JSONObject object = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -22,11 +20,17 @@ public class JsonOrder {
             for(int i =0;i<size;i++){
                 ItemCategories.Item item =itemInOrderList.getItemFromInteger(i);
                 JSONObject tmp = new JSONObject();
-                tmp.put("ItemID",item.getID());
-                tmp.put("Number",item.getNumber());
+                tmp.put("id",item.getID());
+                tmp.put("quantity",item.getNumber());
                 jsonArray.put(tmp);
             }
+
+            object.put("time",itemInOrderList.getDeliverTime());
             object.put("order",jsonArray);
+            object.put("username",username);
+            object.put("userAddress",itemInOrderList.getAddressInfo().getDormitory());
+            object.put("userAddress2",itemInOrderList.getAddressInfo().getRoomNumber());
+            object.put("price",itemInOrderList.getTotalPrice());
         }catch (JSONException ex){
             Log.e("TAG","@_____@",ex);
         }

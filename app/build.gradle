@@ -1,5 +1,19 @@
 apply plugin: 'com.android.application'
+// 添加的插件用于登录验证码
+apply plugin: 'com.mob.sdk'
 
+// 在MobSDK的扩展中注册SMSSDK的相关信息(和android同级，不要放在android里面)
+MobSDK {
+    appKey "2eb14b85c88c0"
+    appSecret "05f7a817d5fb6531c8891bda32fda302"
+
+    SMSSDK {
+        //默认使用GUI，若不使用GUI，通过以下开关关闭
+        //gui false
+        //若使用GUI的自动填充验证码功能，需打开此设置
+        //autoSMS true
+    }
+}
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -34,4 +48,5 @@ dependencies {
     implementation 'org.clojars.kjw:mysql-connector:5.1.11'
     implementation 'com.sun.commons:beanutils:1.6.1-20070314'
     implementation 'com.alibaba:fastjson:1.2.68'
+    implementation 'org.clojars.kjw:mysql-connector:5.1.11'
 }

@@ -14,19 +14,15 @@ import android.widget.TextView;
 
 import com.example.localsale.API.GetItemInfoAPI;
 import com.example.localsale.R;
-import com.example.localsale.data.CloudDatabase.DBCHelper;
 import com.example.localsale.ui.TotalOrderPlesk.OrderList;
 import com.example.localsale.ui.orderPlesk.ItemInOrderList;
 import com.example.localsale.data.LocalDatabase.Database;
-import com.example.localsale.data.UserInfo.UserInfoList;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import static com.example.localsale.data.CloudDatabase.DBCHelper.getDBCHelper;
 
 public class ShoppingFragment extends Fragment  {
 
@@ -81,7 +77,7 @@ public class ShoppingFragment extends Fragment  {
         });
 
 
-        new readDBAsyncTask().execute();
+        new ReadDBAsyncTask().execute();
 
         return view;
     }
@@ -321,16 +317,16 @@ public class ShoppingFragment extends Fragment  {
         }
 
     }
-    public class readDBAsyncTask extends AsyncTask<Integer, Integer, ItemCategories>{
+    public class ReadDBAsyncTask extends AsyncTask<Integer, Integer, ItemCategories>{
 
 
         /*
+
         * 子线程中读取数据库中的数据
         * */
         @Override
         protected ItemCategories doInBackground(Integer... voids) {
             Log.i("TAG","before sql");
-            //DBCHelper helper =getDBCHelper();
             return  GetItemInfoAPI.getItemCategoriesFromBD();
         }
 
@@ -340,9 +336,7 @@ public class ShoppingFragment extends Fragment  {
         @Override
         protected void onPostExecute(ItemCategories result) {
 
-            //Database database  = Database.getDatabase(getActivity());
-            //database.addCategories(result);
-            UserInfoList.getInstance().setList(Database.getDatabase(getActivity()).getUsers());
+
             mViewModel.setItemCategories(result);
             ItemCategories.setItemCategories(result);
             mSection.setAdapter(new SectionAdaptor(result));

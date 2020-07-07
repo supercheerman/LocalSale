@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import com.example.localsale.API.SendOrderAPI;
 import com.example.localsale.R;
-import com.example.localsale.data.JsonSender.JsonOrder;
-import com.example.localsale.data.JsonSender.JsonSender;
+import com.example.localsale.data.JsonHelper.JsonOrderHelper;
 import com.example.localsale.data.LocalDatabase.Database;
+import com.example.localsale.data.UserInfo.LoginUser;
 import com.example.localsale.ui.TimePlesk.DeliverTimePickerActivity;
 import com.example.localsale.ui.TimePlesk.TimeList;
 import com.example.localsale.ui.addressPlesk.AddressList;
@@ -24,16 +24,6 @@ import com.example.localsale.ui.addressPlesk.AddressPickerActivity;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
 import org.json.JSONObject;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -92,12 +82,14 @@ public class OrderFragment extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        JSONObject jsonArray = JsonOrder.ItemInOrderList2JsonArray(ItemInOrderList.getItemInOrderList());
+                        JSONObject jsonArray = JsonOrderHelper.ItemInOrderList2JsonObject(ItemInOrderList.getItemInOrderList(), LoginUser.getUseInfo().getUserName());
                         Log.i("TAG",jsonArray.toString());
                         SendOrderAPI.SendOrder(jsonArray);
 
                     }
                 }).start();
+                Toast.makeText(getContext(), "下单成功", Toast.LENGTH_LONG).show();
+                getActivity().finish();
 
 
 
@@ -114,7 +106,7 @@ public class OrderFragment extends Fragment {
         });
         mAddressTextView = view.findViewById(R.id.location_text_view);
         mTimeTextView = view.findViewById(R.id.time_text_view);
-        bindText();
+        bindTextBeforeResume();
         mTimePickerButton = view.findViewById(R.id.time_choose_image_view);
         mTimePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,20 +117,20 @@ public class OrderFragment extends Fragment {
         });
         return view;
     }
-    public void addItemInOrderListIntoDB(){
+    private void addItemInOrderListIntoDB(){
         ItemInOrderList.getItemInOrderList().setAddressInfo(AddressList.getAddressList().getCurrentAddressInfo());
         ItemInOrderList.getItemInOrderList().setDate();
         ItemInOrderList.getItemInOrderList().setDeliverTime(TimeList.getInstance().getCurrentTimeItemToString());
         Database.getDatabase(getContext()).addOrder(ItemInOrderList.getItemInOrderList());
     }
 
-    public class orderListViewHolder extends RecyclerView.ViewHolder{
+    public class OrderListViewHolder extends RecyclerView.ViewHolder{
 
         private TextView mNameTextView;
         private TextView mNumberTextView;
         private TextView mPriceTextView;
 
-        public orderListViewHolder(LayoutInflater inflater,ViewGroup container) {
+        public OrderListViewHolder(LayoutInflater inflater, ViewGroup container) {
             super(inflater.inflate(R.layout.list_order_item,container,false));
             mNameTextView = itemView.findViewById(R.id.order_list_name_text_view);
             mNumberTextView = itemView.findViewById(R.id.order_list_number_text_view);
@@ -152,7 +144,7 @@ public class OrderFragment extends Fragment {
         }
     }
 
-    public class  orderListViewAdaptor extends RecyclerView.Adapter<orderListViewHolder>{
+    public class  orderListViewAdaptor extends RecyclerView.Adapter<OrderListViewHolder>{
 
         private ItemInOrderList mItemInOrderList;
 
@@ -162,13 +154,13 @@ public class OrderFragment extends Fragment {
 
         @NonNull
         @Override
-        public orderListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public OrderListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            return new orderListViewHolder(inflater,parent);
+            return new OrderListViewHolder(inflater,parent);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull orderListViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull OrderListViewHolder holder, int position) {
             holder.bindText(mItemInOrderList.getItemFromInteger(position));
         }
 
@@ -183,12 +175,12 @@ public class OrderFragment extends Fragment {
     @Override
     public  void onResume() {
         super.onResume();
-        bindText();
+        bindTextBeforeResume();
     }
     /*
     * 用于在页面刚开始加载和启动另一个页面时返回调用，用来绑定选择的地址和配送时间
     * */
-    public void bindText(){
+    private void bindTextBeforeResume(){
 
         mAddressTextView.setText(AddressList.getAddressList().getCurrentAddressInfoToString());
         mTimeTextView.setText(TimeList.getInstance().getCurrentTimeItemToString());

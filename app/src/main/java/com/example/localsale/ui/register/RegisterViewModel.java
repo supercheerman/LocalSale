@@ -1,8 +1,8 @@
 package com.example.localsale.ui.register;
 
 import android.util.Log;
-import android.util.Patterns;
 
+import com.example.localsale.API.UserInfoAPI;
 import com.example.localsale.R;
 import com.example.localsale.data.LocalDatabase.Database;
 
@@ -24,7 +24,7 @@ public class RegisterViewModel extends ViewModel {
     * 当输入框发生变化时
     *
     * */
-    public void loginDataChanged(String username, String password) {
+    public void registerTextChanged(String username, String password) {
         if (!isUserNameValid(username)) {
             mRegisterFormState.setValue(new RegisterFormState(R.string.invalid_username, null));
         } else if (!isPasswordValid(password)) {
@@ -34,8 +34,9 @@ public class RegisterViewModel extends ViewModel {
         }
     }
     public void registerUser(Database database,String username, String password){
-
+        Log.i("TAG:Register","before");
         database.addUser(username,password);
+        UserInfoAPI.sendUserInfo(username,password);
         Log.i("Register","successful");
 
     }
@@ -46,10 +47,10 @@ public class RegisterViewModel extends ViewModel {
         if (username == null) {
             return false;
         }
-        if (username.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
+        if (username.length()==11) {
+            return username.matches("^[1](([3|5|8][\\d])|([4][5,6,7,8,9])|([6][5,6])|([7][3,4,5,6,7,8])|([9][8,9]))[\\d]{8}$");
         } else {
-            return !username.trim().isEmpty();
+            return false;
         }
     }
 

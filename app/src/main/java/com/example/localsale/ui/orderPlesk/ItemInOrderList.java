@@ -77,7 +77,6 @@ public class ItemInOrderList {
  * @Description 为了将从数据库中得到的位置数量对转化为订单对象中的项
  **/
     public void DBToItemInOrderList(int ID,int number){
-        Log.i("TAG:bug",""+ID);
         if(number ==0)
             return;
         ItemCategories.Item item = ItemCategories.getItemCategories().getItemByID(ID);

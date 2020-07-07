@@ -11,23 +11,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="150dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="650dp"
                 android:orientation="vertical">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/order_show_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_margin="10dp"
                     android:layout_weight="8"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
+                    android:layout_margin="10dp"
                     android:layout_weight="1">
 
                     <TextView
@@ -46,6 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
+                    android:layout_margin="10dp"
                     android:layout_weight="1">
 
                     <TextView
@@ -64,6 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
+                    android:layout_margin="10dp"
                     android:layout_weight="1">
 
                     <TextView
@@ -82,6 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
+                    android:layout_margin="10dp"
                     android:layout_weight="1">
 
                     <TextView
@@ -108,6 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
+                    android:layout_margin="10dp"
                     android:layout_weight="1">
 
                     <TextView
@@ -126,6 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
+                    android:layout_margin="10dp"
                     android:layout_weight="1">
 
                     <TextView
@@ -140,26 +144,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:orientation="horizontal"
-                    android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="TextView" />
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="TextView" />
-                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

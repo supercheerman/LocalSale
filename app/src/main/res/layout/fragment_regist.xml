@@ -1,35 +1,35 @@
 <!-- android:focusable="true"
    android:focusableInTouchMode="true"
    把EditText默认的行为截断了！ -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECEDF1"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.example.localsale.ui.register.RegisterActivity" >
+    tools:context="com.example.localsale.ui.register.RegisterActivity"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:layout_gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/my" />
 
     <EditText
         android:id="@+id/register_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="135dp"
+        android:layout_height="0dp"
         android:background="@drawable/shape_white_frame"
+        android:layout_weight="2"
+        android:layout_margin="10dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="@string/register_email"
+        android:hint="电话号码"
         android:inputType="textPersonName"
         android:textColor="#6A6A6C"
         android:textColorHint="#ECEDDD"></EditText>
@@ -37,34 +37,71 @@
     <EditText
         android:id="@+id/register_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/register_email"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="-7dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="5dp"
+        android:layout_height="0dp"
         android:background="@drawable/shape_white_frame"
         android:ems="10"
+        android:layout_weight="2"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:hint="@string/register_password"
         android:inputType="textPassword"
         android:textColor="#6A6A6C"
         android:textColorHint="#ECEDDD"></EditText>
+    <!--LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_white_frame"
+        android:layout_below="@id/register_password"
+        >
+        <EditText
+            android:id="@+id/editTextValidCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="#6A6A6C"
+            android:textColorHint="#ECEDDD"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnSendValidCode"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/shape_login_red"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="发送验证码"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+    </LinearLayout-->
 
     <Button
         android:id="@+id/register_button"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@id/register_password"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginRight="20dp"
+        android:layout_gravity="center"
         android:background="@drawable/shape_button"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="@string/register_button"
         android:textColor="#F9FAFB" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5" />
 
-</RelativeLayout>
+
+</LinearLayout>

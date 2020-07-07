@@ -4,9 +4,6 @@ import android.content.ClipData;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.example.localsale.data.CloudDatabase.DBCHelper;
-import com.example.localsale.data.LocalDatabase.DbSchema.UserInfoTable;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
 public class ItemInfoCursorWrapper extends CursorWrapper {

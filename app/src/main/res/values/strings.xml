@@ -1,25 +1,25 @@
 <resources>
     <string name="app_name">LocalSale</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_register">register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="action_login_in">Login in</string>
+    <string name="prompt_email">手机号码</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_register">注册</string>
+    <string name="action_sign_in_short">登录成功</string>
+    <string name="action_login_in">登录</string>
     <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_username">手机号码格式不正确</string>
+    <string name="invalid_password">密码必须大于5位</string>
     <string name="login_failed">"Login failed"</string>
 
     <string name="register_email">Email</string>
-    <string name="register_password">Password</string>
-    <string name="register_button">Register</string>
+    <string name="register_password">密码</string>
+    <string name="register_button">注册</string>
     <string name="money_text">￥0</string>
     <string name="least_money_string">¥30起送</string>
     <string name="item_picture">item picture</string>
-    <string name="shoppinglist">ShoppingList</string>
-    <string name="shopping_trolley">Shopping trolley</string>
-    <string name="user_info">user_info</string>
+    <string name="shoppinglist">商品例表</string>
+    <string name="shopping_trolley">购物车</string>
+    <string name="user_info">个人信息</string>
     <string name="edit_address">修改信息</string>
     <string name="choose_picker">选择配送地点</string>
     <string name="time_picker">请选择配送时间</string>

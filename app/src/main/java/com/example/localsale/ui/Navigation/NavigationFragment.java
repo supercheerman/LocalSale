@@ -2,15 +2,12 @@ package com.example.localsale.ui.Navigation;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.localsale.R;
-import com.example.localsale.ui.MainActivity;
-import com.example.localsale.ui.shoppingPlesk.ShoppingFragment;
 
 import androidx.fragment.app.Fragment;
 
@@ -18,9 +15,9 @@ public class NavigationFragment extends Fragment {
     private Button mShoppingListButton;
     private Button mShoppingTrolleyButton;
     private Button mUserInfoButton;
-    private static onClickListener mOnClickListener;
+    private static OnClickListener mOnClickListener;
 
-    public static NavigationFragment newInstance(Context context , onClickListener listener){
+    public static NavigationFragment newInstance(Context context , OnClickListener listener){
 
         mOnClickListener = listener;
         return new NavigationFragment();
@@ -64,7 +61,7 @@ public class NavigationFragment extends Fragment {
 
     }
 
-    public interface onClickListener{
+    public interface OnClickListener {
         void shoppingListButtonClick();
         void shoppingTrolleyButtonClick();
         void userInfoButtonClick();

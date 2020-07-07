@@ -1,4 +1,4 @@
-package com.example.localsale.ui;
+package com.example.localsale.ui.Navigation;
 
 import android.Manifest;
 import android.content.Context;

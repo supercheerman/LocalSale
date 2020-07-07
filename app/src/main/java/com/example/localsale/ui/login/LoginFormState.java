@@ -11,18 +11,18 @@ public class LoginFormState {
     private Integer usernameError;
     @Nullable
     private Integer passwordError;
-    private boolean isDataValid;
+    private boolean isTextValid;
 
     public LoginFormState(@Nullable Integer usernameError, @Nullable Integer passwordError) {
         this.usernameError = usernameError;
         this.passwordError = passwordError;
-        this.isDataValid = false;
+        this.isTextValid = false;
     }
 
-    LoginFormState(boolean isDataValid) {
+    public LoginFormState(boolean isTextValid) {
         this.usernameError = null;
         this.passwordError = null;
-        this.isDataValid = isDataValid;
+        this.isTextValid = isTextValid;
     }
 
     @Nullable
@@ -35,7 +35,7 @@ public class LoginFormState {
         return passwordError;
     }
 
-    boolean isDataValid() {
-        return isDataValid;
+    boolean isTextValid() {
+        return isTextValid;
     }
 }

@@ -1,25 +1,22 @@
-package com.example.localsale.ui;
+package com.example.localsale.ui.Navigation;
 
+import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.example.localsale.R;
-import com.example.localsale.ui.MenuFragmentActivity;
-import com.example.localsale.ui.Navigation.NavigationFragment;
-import com.example.localsale.ui.SingleFragmentActivity;
-import com.example.localsale.ui.login.LoginActivity;
-import com.example.localsale.ui.login.LoginFragment;
 import com.example.localsale.ui.orderPlesk.OrderActivity;
-import com.example.localsale.ui.orderPlesk.OrderFragment;
-import com.example.localsale.ui.register.RegisterFragment;
 import com.example.localsale.ui.shoppingPlesk.ShoppingFragment;
 import com.example.localsale.ui.userPlesk.UserPleskFragment;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 public class MainActivity extends MenuFragmentActivity {
 
+
+    public static Intent newIntent(Context packageContext) {
+        Intent intent = new Intent(packageContext, MainActivity.class);
+        return intent;
+    }
 
     @Override
     protected Fragment createFragment() {
@@ -28,7 +25,7 @@ public class MainActivity extends MenuFragmentActivity {
 
     @Override
     protected Fragment createNavigationFragment() {
-        return NavigationFragment.newInstance(this, new NavigationFragment.onClickListener() {
+        return NavigationFragment.newInstance(this, new NavigationFragment.OnClickListener() {
             @Override
             public void shoppingListButtonClick() {
                 Fragment fragment = ShoppingFragment.newInstance(getApplicationContext());

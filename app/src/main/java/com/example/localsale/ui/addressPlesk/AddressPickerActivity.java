@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.localsale.R;
@@ -20,7 +18,6 @@ import com.example.localsale.data.LocalDatabase.Database;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,19 +34,19 @@ public class AddressPickerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_address_picker);
         mRecyclerView =findViewById(R.id.address_picker_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new addressAdaptor());
+        mRecyclerView.setAdapter(new AddressAdaptor());
 
 
     }
-    public class addressItem extends RecyclerView.ViewHolder{
-        private ImageButton mAddress_check_button;
+    public class AddressItem extends RecyclerView.ViewHolder{
+        private ImageButton mAddressCheckButton;
         private TextView mUserInfoTextView;
         private TextView mAddressTextView;
         private Button mAddressEditButton;
 
-        public addressItem(LayoutInflater inflater, ViewGroup container) {
+        public AddressItem(LayoutInflater inflater, ViewGroup container) {
             super(inflater.inflate(R.layout.list_address_item,container,false));
-            mAddress_check_button = itemView.findViewById(R.id.address_check_box_button);
+            mAddressCheckButton = itemView.findViewById(R.id.address_check_box_button);
             mUserInfoTextView = itemView.findViewById(R.id.user_info_text_view);
             mAddressTextView = itemView.findViewById(R.id.address_text_view);
             mAddressEditButton = itemView.findViewById(R.id.address_edit_button);
@@ -58,9 +55,9 @@ public class AddressPickerActivity extends AppCompatActivity {
             mUserInfoTextView .setText(item.getName()+"  "+item.getPhoneNumber());
             mAddressTextView.setText(item.getDormitory()+item.getRoomNumber());
         }
-        public void bindListener(){
+        private void bindListener(){
             final int post = this.getAdapterPosition();
-            mAddress_check_button.setOnClickListener(new View.OnClickListener() {
+            mAddressCheckButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AddressList mAddressList = AddressList.getAddressList();
@@ -72,7 +69,7 @@ public class AddressPickerActivity extends AppCompatActivity {
 
                     }
                     mAddressList.setCurrentIndex(post);
-                    bindDrawable();
+                    bindCheckBoxDrawable();
                 }
             });
             mAddressEditButton.setOnClickListener(new View.OnClickListener() {
@@ -84,32 +81,32 @@ public class AddressPickerActivity extends AppCompatActivity {
                 }
             });
         }
-        public void bindDrawable(){
+        public void bindCheckBoxDrawable(){
             Drawable drawable=getDrawable(android.R.drawable.checkbox_on_background);
-            mAddress_check_button.setImageDrawable(drawable);
+            mAddressCheckButton.setImageDrawable(drawable);
         }
     }
-    public class addressAdaptor extends RecyclerView.Adapter<addressItem>{
+    public class AddressAdaptor extends RecyclerView.Adapter<AddressItem>{
 
         private AddressList mAddressList ;
 
 
-        public addressAdaptor(){
+        public AddressAdaptor(){
             Database.getDatabase(getApplicationContext()).getAddressInfoFromTables();
             mAddressList = AddressList.getAddressList();
         }
         @NonNull
         @Override
-        public addressItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public AddressItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getApplication());
-            return new addressItem(inflater,parent);
+            return new AddressItem(inflater,parent);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull addressItem holder, int position) {
+        public void onBindViewHolder(@NonNull AddressItem holder, int position) {
             int currentIndex  = mAddressList.getCurrentIndex();
             if(position==currentIndex){
-                holder.bindDrawable();
+                holder.bindCheckBoxDrawable();
             }
             AddressList.AddressInfo item = mAddressList.getAddressInfoItem(position);
             holder.bindText(item);
@@ -128,7 +125,7 @@ public class AddressPickerActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.address_picker_menu,menu);
-        MenuItem toggleItem = menu.findItem(R.id.menu_item_add_address);
+        //MenuItem toggleItem = menu.findItem(R.id.menu_item_add_address);
         return true;
 
     }
@@ -147,6 +144,6 @@ public class AddressPickerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mRecyclerView.setAdapter(new addressAdaptor());
+        mRecyclerView.setAdapter(new AddressAdaptor());
     }
 }

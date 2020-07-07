@@ -2,6 +2,7 @@ package com.example.localsale.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,12 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.localsale.API.UserInfoAPI;
 import com.example.localsale.R;
-import com.example.localsale.data.LocalDatabase.Database;
+import com.example.localsale.data.UserInfo.LoginUser;
+import com.example.localsale.ui.Navigation.MainActivity;
 import com.example.localsale.ui.register.RegisterActivity;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -34,6 +36,9 @@ public class LoginFragment extends Fragment {
     private Button loginButton ;
     private Button registerButton;
     private ProgressBar loadingProgressBar ;
+
+    private String userName;
+    private String password;
 
     public static LoginFragment newInstance(Context context){
         return new LoginFragment();
@@ -63,7 +68,7 @@ public class LoginFragment extends Fragment {
                 if (loginFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
+                loginButton.setEnabled(loginFormState.isTextValid());
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
@@ -73,27 +78,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);//登录按钮点击后到判断结果出来之前显示ProcessBar
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                //setResult(Activity.RESULT_OK);
-
-                //Complete and destroy login activity once successful
-                //finish();
-            }
-        });
-
-        TextWatcher afterTextChangedListener = new TextWatcher() {
+        final TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // ignore
@@ -107,7 +92,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 //输入框内容变化时调用LoginDataChange方法改变LoginFormState的结果
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
+                loginViewModel.loginTextChanged(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         };
@@ -118,8 +103,7 @@ public class LoginFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                    v.setText("fucnk");
                 }
                 return false;//返回true，保留软键盘。false，隐藏软键盘
             }
@@ -128,12 +112,12 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                boolean result= loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-                if(result){
-                    getActivity().finish();
-                }
+                userName = usernameEditText.getText().toString();
+                password = passwordEditText.getText().toString();
+                loadingProgressBar.setVisibility(View.VISIBLE);//登录按钮点击后到判断结果出来之前显示ProcessBar
+                new PHPAsyncTask().execute();
+
+
             }
         });
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -146,16 +130,34 @@ public class LoginFragment extends Fragment {
 
         return v;
     }
+    public class PHPAsyncTask extends AsyncTask<Integer, Integer, Boolean > {
 
-    private void updateUiWithUser(String name) {
-        String welcome = getString(R.string.welcome) + name;
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getContext(), welcome, Toast.LENGTH_LONG).show();
+        /*
+         * 子线程中读取数据库中的数据
+         * */
+        @Override
+        protected Boolean  doInBackground(Integer... voids) {
+            return UserInfoAPI.ValidUser(userName,password);
+
+        }
+
+        /*
+         * 该方法在子线程执行完毕后执行，在主线程中执行，用来设置数据显示
+         * */
+        @Override
+        protected void onPostExecute(Boolean  bool) {
+            loadingProgressBar.setVisibility(View.GONE);
+            if(bool){
+                LoginUser.getUseInfo().setUserPassword(password);
+                LoginUser.getUseInfo().setUserName(userName);
+                Toast.makeText(getActivity(),"登陆成功",Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+                startActivity(MainActivity.newIntent(getContext()));
+            }else{
+                Toast.makeText(getActivity(),"用户名或密码错误",Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
-
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT).show();
-    }
-
 
 }

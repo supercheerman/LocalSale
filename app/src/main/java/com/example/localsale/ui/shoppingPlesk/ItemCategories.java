@@ -49,10 +49,6 @@ public class ItemCategories{
 
     private List<ItemCategory> mItemCategoryList = new ArrayList<>();
 
-    public List<ItemCategory> getItemCategoryList() {
-        return mItemCategoryList;
-    }
-
     public ItemCategories(){
 
         mSectionCache = new SparseArray<Integer>();
@@ -241,9 +237,6 @@ public class ItemCategories{
         public ItemCategory(String category,Item item){
             mCategory =category;
             mItems.add(item);
-        }
-        public ItemCategory(){
-
         }
 
         public String getCategory() {

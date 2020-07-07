@@ -14,7 +14,8 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="100dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
 
     <EditText
         android:id="@+id/username"
@@ -22,7 +23,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true" />
@@ -34,7 +35,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
@@ -46,7 +47,7 @@
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_gravity="center"
         android:layout_marginStart="48dp"
         android:layout_marginTop="92dp"
@@ -59,7 +60,7 @@
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_gravity="center"
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
@@ -71,7 +72,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:orientation="horizontal">
 
         <ProgressBar

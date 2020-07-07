@@ -2,6 +2,12 @@ package com.example.localsale.API;
 
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.example.localsale.ui.TotalOrderPlesk.OrderList;
+import com.example.localsale.ui.orderPlesk.ItemInOrderList;
+import com.example.localsale.ui.shoppingPlesk.ItemCategories;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,28 +17,52 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Random;
 
-public class SendOrderAPI {
+
+/**
+ * getOrder发送信息的格式
+ *
+ * 接收信息的格式
+ *
+ */
+public class GetOrderAPI {
 
     static final  String Password ="235huangWeiHao1265";
 
-    public static void SendOrder(JSONObject jsonObject){
+    public static OrderList getOrderFromBD(JSONObject jsonObject){
 
+        Log.i("TAG:GetOrder:info",jsonObject.toString());
+        String  path="http://106.54.98.211:88/getOrder.php";
+        String returnInfo = getOrder(path,jsonObject);
+        OrderList orderList = new OrderList();
+        try{
+            JSONArray jsonArray = new JSONArray(returnInfo);
+            for(int i=0;i<jsonArray.length();i++){
+                JSONObject object = (JSONObject) jsonArray.get(i);
+                ItemInOrderList itemInOrderList = new ItemInOrderList();
+                itemInOrderList.setDeliverTime(object.getString("expectedtime"));
+                itemInOrderList.setOrderID(object.getString("id"));
+                JSONArray itemArray =new JSONArray(object.getString("commodity"));
+                for(int j=0;j<itemArray.length();j++){
+                    JSONObject item = (JSONObject) itemArray.get(j);
+                     itemInOrderList.DBToItemInOrderList(item.getInt("id"),item.getInt("quantity"));
 
-        String  path="http://106.54.98.211:88/addOrder.php";
-        String returnInfo = WritePacket(path,jsonObject);
-        Log.i("TAG:php",returnInfo);
-        /*if(returnInfo.contains("包含") ){
-            Log.i("TAG:php","成功写入");
-        }else{
-            Log.i("TAG:php","密令不对");
-        }*/
+                }
+                Log.i("TAG:GetOrder:info",itemInOrderList.toString());
+                orderList.addOrder(itemInOrderList);
+        }
+        }catch (JSONException ex){
+            Log.e("TAG","@_____@",ex);
+        }
 
-
+        return orderList;
 
     }
-    private static HttpURLConnection initialConnection(String url) throws IOException{
+
+
+    public static HttpURLConnection initialConnection(String url) throws IOException {
 
         HttpURLConnection connection =(HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("POST");
@@ -40,7 +70,7 @@ public class SendOrderAPI {
         return connection;
     }
 
-    public static String WritePacket(String url,JSONObject jsonObject){
+    public static String getOrder(String url, JSONObject jsonObject){
         try{
             HttpURLConnection connection = initialConnection(url);
             OutputStream outputStream = connection.getOutputStream();
@@ -67,7 +97,6 @@ public class SendOrderAPI {
         return null;
 
     }
-
     private static JSONObject addAuthInfo(JSONObject jsonObject) throws JSONException {
         int rmd = new Random().nextInt(Integer.MAX_VALUE);
         Log.i("TAG:random",rmd+"");

@@ -2,6 +2,9 @@ package com.example.localsale.API;
 
 import android.util.Log;
 
+import com.example.localsale.ui.shoppingPlesk.ItemCategories;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,26 +16,47 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
 
-public class SendOrderAPI {
+public class UserInfoAPI {
 
-    static final  String Password ="235huangWeiHao1265";
+    private static final  String Password ="235huangWeiHao1265";
 
-    public static void SendOrder(JSONObject jsonObject){
+    public static void sendUserInfo(String userName, String userPassword){
 
 
-        String  path="http://106.54.98.211:88/addOrder.php";
-        String returnInfo = WritePacket(path,jsonObject);
+        String  path="http://106.54.98.211:88/addUserInfo.php";
+        String returnInfo = WritePacket(path,UserInfo2Json(userName,userPassword));
         Log.i("TAG:php",returnInfo);
         /*if(returnInfo.contains("包含") ){
             Log.i("TAG:php","成功写入");
         }else{
             Log.i("TAG:php","密令不对");
         }*/
-
-
-
     }
-    private static HttpURLConnection initialConnection(String url) throws IOException{
+
+    public static boolean ValidUser(String userName,String userPassword){
+
+
+        String  path="http://106.54.98.211:88/validUserInfo.php";
+        String returnInfo = WritePacket(path,UserInfo2Json(userName,userPassword));
+        Log.i("TAG:php",returnInfo);
+        if(returnInfo.contains("true") ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    private static JSONObject UserInfo2Json(String userName,String userPassword){
+        JSONObject object = new JSONObject();
+        try{
+            object.put("userInfoName",userName);
+            object.put("userInfoPassword",userPassword);
+        }catch (JSONException ex){
+            Log.e("TAG","@_____@",ex);
+        }
+
+        return object;
+    }
+    private static HttpURLConnection initialConnection(String url) throws IOException {
 
         HttpURLConnection connection =(HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("POST");
@@ -40,7 +64,7 @@ public class SendOrderAPI {
         return connection;
     }
 
-    public static String WritePacket(String url,JSONObject jsonObject){
+    private static String WritePacket(String url,JSONObject jsonObject){
         try{
             HttpURLConnection connection = initialConnection(url);
             OutputStream outputStream = connection.getOutputStream();

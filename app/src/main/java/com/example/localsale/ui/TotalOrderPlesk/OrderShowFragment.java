@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.localsale.R;
 import com.example.localsale.ui.orderPlesk.ItemInOrderList;
-import com.example.localsale.ui.orderPlesk.OrderFragment;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
 import androidx.annotation.NonNull;
@@ -42,7 +41,7 @@ public class OrderShowFragment extends Fragment {
         mItemInOrderList = OrderList.getOrderList().getOrder(getArguments().getInt(INDEX));
         mRecyclerView = view.findViewById(R.id.order_show_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new orderListViewAdaptor(mItemInOrderList));
+        mRecyclerView.setAdapter(new OrderListViewAdaptor(mItemInOrderList));
         mTotalFreeTextView = view.findViewById(R.id.total_price_each_order_text_view);
         mWrapOrderFreeTextView = view.findViewById(R.id.wrap_order_free_text_view);
         mDeliverOrderFreeTextView = view.findViewById(R.id.deliver_order_free_text_view);
@@ -52,7 +51,7 @@ public class OrderShowFragment extends Fragment {
         blindText();
         return view;
     }
-    public void blindText(){
+    private void blindText(){
         mTotalFreeTextView.setText("合计："+mItemInOrderList.getTotalPrice());
         mDeliverOrderFreeTextView.setText("1.0");
         mWrapOrderFreeTextView.setText("0.5");
@@ -61,13 +60,13 @@ public class OrderShowFragment extends Fragment {
         mOrderShowOrderTimeTextView.setText(mItemInOrderList.getDate());
     }
 
-    public class orderListViewHolder extends RecyclerView.ViewHolder{
+    public class OrderListViewHolder extends RecyclerView.ViewHolder{
 
         private TextView mNameTextView;
         private TextView mNumberTextView;
         private TextView mPriceTextView;
 
-        public orderListViewHolder(LayoutInflater inflater,ViewGroup container) {
+        public OrderListViewHolder(LayoutInflater inflater, ViewGroup container) {
             super(inflater.inflate(R.layout.list_order_item,container,false));
             mNameTextView = itemView.findViewById(R.id.order_list_name_text_view);
             mNumberTextView = itemView.findViewById(R.id.order_list_number_text_view);
@@ -82,23 +81,23 @@ public class OrderShowFragment extends Fragment {
 
     }
 
-    public class  orderListViewAdaptor extends RecyclerView.Adapter<orderListViewHolder> {
+    public class OrderListViewAdaptor extends RecyclerView.Adapter<OrderListViewHolder> {
 
         private ItemInOrderList mItemInOrderList;
 
-        public orderListViewAdaptor(ItemInOrderList itemInOrderList){
+        public OrderListViewAdaptor(ItemInOrderList itemInOrderList){
             mItemInOrderList= itemInOrderList;
         }
 
         @NonNull
         @Override
-        public orderListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public OrderListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            return new orderListViewHolder(inflater,parent);
+            return new OrderListViewHolder(inflater,parent);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull orderListViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull OrderListViewHolder holder, int position) {
             holder.bindText(mItemInOrderList.getItemFromInteger(position));
         }
 

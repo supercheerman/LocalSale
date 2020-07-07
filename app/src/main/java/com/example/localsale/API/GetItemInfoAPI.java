@@ -3,8 +3,6 @@ package com.example.localsale.API;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.example.localsale.ui.shoppingPlesk.ItemCategories;
 
 import java.io.IOException;
@@ -18,9 +16,9 @@ public class GetItemInfoAPI {
     public static ItemCategories getItemCategoriesFromBD(){
 
 
-        String  path="http://106.54.98.211/getItemInfo.php";
-        String returnInfo = GetItemInfo(path);
-        Log.i("TAG:php",returnInfo);
+        String  path="http://106.54.98.211:88/getItemInfo.php";
+        String returnInfo = getItemInfo(path);
+        Log.i("TAG:php:return info",returnInfo);
         List<ItemCategories.Item> jsonArray = JSON.parseArray(returnInfo, ItemCategories.Item.class);
         Log.i("TAG:php",jsonArray.size()+"");
         ItemCategories itemCategories = new ItemCategories();
@@ -46,7 +44,7 @@ public class GetItemInfoAPI {
         return connection;
     }
 
-    public static String GetItemInfo(String url){
+    public static String getItemInfo(String url){
         try{
             HttpURLConnection connection = initialConnection(url);
             InputStream inputStream = connection.getInputStream();
@@ -54,12 +52,12 @@ public class GetItemInfoAPI {
             byte [] m= new byte[1000];
             int number = inputStream.read(m);
             ItemInfo.append(new String(m,0,number));
-            while(inputStream.available()!=0){
+            while(!ItemInfo.toString().contains("&endpoint&")){
                 Log.i("TAG:php available",inputStream.available()+"");
                 number = inputStream.read(m);
                 ItemInfo = ItemInfo.append(new String(m,0,number));
             }
-            return ItemInfo.toString();
+            return ItemInfo.toString().replace("&endpoint&","");
         } catch (IOException e){
             Log.e("TAG","@_____@",e);
         }
